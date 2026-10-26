@@ -164,10 +164,13 @@
     .order { display: flex; justify-content: space-between; background: var(--bg); border-radius: 14px; padding: 14px 16px; margin: 16px 0; font-weight: 600; }
     .order strong { color: var(--accent-dark); font-family: "Prompt", sans-serif; font-size: 22px; }
     .qr {
-      width: 200px; aspect-ratio: 1; margin: 0 auto 12px; background: var(--surface);
-      border: 2px dashed var(--accent); border-radius: 16px;
-      display: grid; place-items: center; text-align: center; color: var(--muted); font-size: 15px; padding: 12px;
+      display: block; width: 220px; max-width: 100%; aspect-ratio: 1; margin: 0 auto 6px; background: #fff;
+      border: 1px solid var(--line); border-radius: 16px; padding: 8px; image-rendering: pixelated;
     }
+    .payee { text-align: center; font-size: 14px; color: var(--muted); margin: 0; }
+    .payee b { color: var(--ink); }
+    .btn-row { display: grid; gap: 8px; }
+    .line-id { text-align: center; font-size: 14px; color: var(--muted); margin: 8px 0 0; }
     .modal ol { padding-left: 1.2em; margin: 16px 0 20px; font-size: 16px; }
     .modal ol li { margin-bottom: 4px; }
     .note { text-align: center; color: var(--muted); font-size: 14px; margin: 12px 0 0; }
@@ -349,24 +352,38 @@
         <button class="close" id="closeDialog" aria-label="ปิด">×</button>
       </div>
       <div class="order"><span id="orderName"></span><strong id="orderPrice"></strong></div>
-      <!-- เปลี่ยนเป็นรูป QR พร้อมเพย์ของนุ้ย: <img src="promptpay-qr.png" alt="QR พร้อมเพย์" class="qr"> -->
-      <div class="qr">วาง QR พร้อมเพย์<br>ของนุ้ยตรงนี้</div>
+      <!-- qr-<ราคา>.png = QR พร้อมเพย์ที่ใส่ยอดเงินไว้แล้ว · promptpay-qr.png = QR แบบกรอกยอดเอง -->
+      <img class="qr" id="qrImg" src="promptpay-qr.png" alt="QR พร้อมเพย์ของ Janya Rattanaliam" width="220" height="220">
+      <p class="payee">พร้อมเพย์ · <b>MISS JANYA RATTANALIAM</b><br><span id="qrHint">สแกนแล้วยอดเงินขึ้นให้อัตโนมัติ</span></p>
       <ol>
         <li>สแกน QR ด้วยแอปธนาคาร แล้วโอนตามยอดด้านบน</li>
-        <li>กดปุ่มเขียวด้านล่าง แล้วแนบสลิปส่งให้นุ้ย</li>
+        <li>กด "คัดลอกข้อความสั่งซื้อ" แล้วกดปุ่มเขียวเพื่อเปิด LINE</li>
+        <li>วางข้อความ แนบสลิป แล้วส่งให้นุ้ย</li>
       </ol>
-      <a class="btn line full" id="lineBtn" href="#" target="_blank" rel="noopener">💬 ส่งสลิปทาง LINE</a>
-      <p class="note">ระบบพิมพ์ชื่อเล่มให้อัตโนมัติ แค่แนบสลิปแล้วกดส่ง</p>
+      <div class="btn-row">
+        <button class="btn ghost full" id="copyOrder" type="button">📋 คัดลอกข้อความสั่งซื้อ</button>
+        <a class="btn line full" id="lineBtn" href="https://line.me/ti/p/9l4foE50B_" target="_blank" rel="noopener">💬 เปิด LINE ส่งสลิปให้นุ้ย</a>
+      </div>
+      <p class="line-id">LINE ID: <b>janya.rattanaliam</b></p>
     </div>
   </dialog>
 
   <script>
-    // ใส่ LINE ID ของนุ้ย (ใส่ @ ด้วยถ้าเป็น LINE Official Account)
-    const LINE_ID = "@nui";
+    // LINE ส่วนตัวของนุ้ย (บัญชีส่วนตัวพิมพ์ข้อความให้ล่วงหน้าไม่ได้ เลยมีปุ่มคัดลอกข้อความแทน)
+    const LINE_URL = "https://line.me/ti/p/9l4foE50B_";
 
     const dialog = document.getElementById("payDialog");
-    const lineUrl = (text) =>
-      "https://line.me/R/oaMessage/" + encodeURIComponent(LINE_ID) + "/?" + encodeURIComponent(text);
+    const qrImg = document.getElementById("qrImg");
+    const copyBtn = document.getElementById("copyOrder");
+    let orderText = "";
+
+    // ถ้าไม่มี QR ที่ใส่ยอดไว้สำหรับราคานี้ ใช้ QR แบบกรอกยอดเอง
+    qrImg.addEventListener("error", () => {
+      if (!qrImg.src.endsWith("promptpay-qr.png")) {
+        qrImg.src = "promptpay-qr.png";
+        document.getElementById("qrHint").textContent = "สแกนแล้วกรอกยอดเงินตามด้านบน";
+      }
+    });
 
     document.querySelectorAll("[data-buy]").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -374,17 +391,28 @@
         const price = btn.dataset.price;
         document.getElementById("orderName").textContent = name;
         document.getElementById("orderPrice").textContent = "฿" + price;
-        document.getElementById("lineBtn").href =
-          lineUrl("สวัสดีค่ะนุ้ย สั่งซื้อ ebook \"" + name + "\" ราคา " + price + " บาท แนบสลิปค่ะ");
+        document.getElementById("qrHint").textContent = "สแกนแล้วยอดเงินขึ้นให้อัตโนมัติ";
+        qrImg.src = "qr-" + price + ".png";
+        orderText = "สวัสดีค่ะนุ้ย สั่งซื้อ ebook \"" + name + "\" ราคา " + price + " บาท แนบสลิปค่ะ";
+        copyBtn.textContent = "📋 คัดลอกข้อความสั่งซื้อ";
         dialog.showModal();
       });
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(orderText);
+        copyBtn.textContent = "✓ คัดลอกแล้ว กดปุ่มเขียวต่อได้เลย";
+      } catch {
+        copyBtn.textContent = orderText;
+      }
     });
 
     document.getElementById("closeDialog").addEventListener("click", () => dialog.close());
     dialog.addEventListener("click", (e) => { if (e.target === dialog) dialog.close(); });
 
     document.querySelectorAll(".line-link").forEach((a) => {
-      a.href = lineUrl("สวัสดีค่ะนุ้ย มีคำถามเรื่อง ebook ค่ะ");
+      a.href = LINE_URL;
       a.target = "_blank";
       a.rel = "noopener";
     });
