@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nui OS | แดชบอร์ดของนุ้ย</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600&family=Sarabun:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F6F0E8;
+      --surface: #FFFFFF;
+      --side: #FBF6EF;
+      --ink: #2E2A26;
+      --muted: #6E655C;
+      --faint: #9A9087;
+      --accent: #C8734F;
+      --accent-dark: #A85B3B;
+      --soft: #F1E4D6;
+      --line: #E6D9CA;
+      --good: #2F855A;
+      --bad: #C53030;
+      --plan-bg: #FBEDE6;
+      --plan-line: #EBC3B0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: "Sarabun", system-ui, sans-serif; font-size: 16px; line-height: 1.6;
+    }
+    h1, h2, h3 { font-family: "Prompt", sans-serif; margin: 0; line-height: 1.3; }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+    button { font-family: inherit; }
+
+    .app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; max-width: 1280px; margin: 0 auto; }
+
+    /* แถบเมนูซ้าย */
+    aside { background: var(--side); border-right: 1px solid var(--line); padding: 20px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+    .profile { display: flex; gap: 10px; align-items: center; margin-bottom: 24px; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-family: "Prompt"; font-size: 18px; }
+    .profile b { display: block; line-height: 1.2; }
+    .profile small { color: var(--faint); font-size: 12px; }
+    .group { font-size: 11px; color: var(--faint); letter-spacing: .08em; margin: 18px 10px 6px; }
+    .nav { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; background: none; border: 0; padding: 9px 12px; border-radius: 10px; color: var(--muted); cursor: pointer; font-size: 15px; }
+    .nav:hover { background: var(--soft); color: var(--ink); }
+    .nav[aria-current="page"] { background: var(--soft); color: var(--accent-dark); font-weight: 600; }
+    .nav:focus-visible { outline: 2px solid var(--accent); }
+
+    /* ส่วนหลัก */
+    main { padding: 20px 28px 48px; min-width: 0; }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .title h1 { font-size: 22px; }
+    .title h1 span { color: var(--accent); }
+    .chip { font-size: 11px; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--plan-line); color: var(--accent-dark); background: var(--plan-bg); }
+    .chip.demo { border-color: var(--line); color: var(--muted); background: var(--surface); }
+    .updated { font-size: 12px; color: var(--faint); margin-top: 2px; }
+    .updated::before { content: "●"; color: var(--good); margin-right: 6px; }
+    .menu-btn { display: none; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; width: 40px; height: 40px; font-size: 18px; cursor: pointer; }
+    .btn { background: var(--surface); border: 1px solid var(--plan-line); color: var(--accent-dark); padding: 8px 16px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 14px; }
+    .btn:hover { background: var(--plan-bg); }
+    .intro { color: var(--muted); margin: 16px 0 20px; }
+
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* การ์ดตัวเลข */
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; position: relative; }
+    .kpi .label { font-size: 12px; color: var(--muted); }
+    .kpi .value { font-family: "Prompt"; font-size: 30px; margin: 2px 0 6px; }
+    .kpi .row { display: flex; align-items: end; gap: 8px; }
+    .kpi svg { flex: 1; height: 40px; overflow: visible; }
+    .delta { font-size: 13px; font-weight: 600; white-space: nowrap; }
+    .up { color: var(--good); }
+    .down { color: var(--bad); }
+    .tip {
+      position: absolute; pointer-events: none; background: var(--ink); color: #fff;
+      font-size: 12px; padding: 4px 8px; border-radius: 6px; white-space: nowrap;
+      transform: translate(-50%, -110%); display: none;
+    }
+
+    /* กล่องเนื้อหา */
+    .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin-top: 20px; }
+    .panel-head { display: flex; justify-content: space-between; align-items: start; gap: 12px; margin-bottom: 4px; }
+    .panel-head h2 { font-size: 18px; }
+    .sub { font-size: 13px; color: var(--faint); margin-bottom: 12px; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; }
+    th { text-align: right; font-weight: 400; color: var(--faint); font-size: 13px; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+    td { text-align: right; padding: 12px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+    th:first-child, td:first-child { text-align: left; white-space: normal; }
+    td:first-child { font-weight: 600; }
+    tr.total td { border-bottom: 0; font-weight: 600; }
+    td.num { font-family: "IBM Plex Mono", monospace; font-size: 14px; }
+    .bar { display: inline-block; height: 8px; border-radius: 0 4px 4px 0; background: var(--accent); vertical-align: middle; margin-right: 8px; }
+
+    /* แผนและไอเดีย */
+    .plan { background: var(--plan-bg); border: 1px solid var(--plan-line); border-radius: 16px; padding: 20px; margin-top: 20px; }
+    .plan h2 { font-size: 17px; color: var(--accent-dark); margin-bottom: 10px; }
+    .plan ol { margin: 0; padding-left: 1.2em; }
+    .plan li { margin-bottom: 12px; }
+    .plan li b { color: var(--accent-dark); }
+    .plan p { margin: 0; }
+
+    /* ปฏิทิน */
+    .week { display: grid; grid-template-columns: repeat(7, minmax(120px, 1fr)); gap: 10px; overflow-x: auto; }
+    .day { background: var(--side); border: 1px solid var(--line); border-radius: 12px; padding: 10px; min-height: 160px; }
+    .day h3 { font-size: 14px; margin-bottom: 8px; }
+    .post { background: var(--surface); border-left: 3px solid var(--accent); border-radius: 6px; padding: 6px 8px; font-size: 13px; margin-bottom: 6px; }
+    .post small { display: block; color: var(--faint); }
+
+    /* คลัง Hook */
+    .hooks { display: grid; gap: 10px; }
+    .hook { display: flex; justify-content: space-between; align-items: center; gap: 12px; background: var(--side); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+    .hook small { display: block; color: var(--faint); font-size: 12px; }
+    .copy { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; cursor: pointer; white-space: nowrap; }
+
+    .foot { text-align: center; color: var(--faint); font-size: 12px; margin-top: 28px; }
+
+    @media (max-width: 860px) {
+      .app { grid-template-columns: 1fr; }
+      aside { position: fixed; inset: 0 auto 0 0; width: 260px; z-index: 30; transform: translateX(-100%); transition: transform .2s; box-shadow: 8px 0 24px rgba(0,0,0,.1); }
+      aside.open { transform: none; }
+      .menu-btn { display: inline-block; }
+      main { padding: 16px; }
+      .kpis { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .kpi { padding: 12px; }
+      .kpi .value { font-size: 22px; }
+      .kpi .row { flex-direction: column; align-items: stretch; gap: 2px; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside id="side" aria-label="เมนู">
+    <div class="profile">
+      <div class="avatar">น</div>
+      <div><b>นุ้ย</b><small class="mono">ebook · YouTube</small></div>
+    </div>
+    <button class="nav" data-view="overview" aria-current="page">▣ ภาพรวม</button>
+    <div class="group">ขาย</div>
+    <button class="nav" data-view="sales">฿ ยอดขาย ebook</button>
+    <div class="group">คอนเทนต์</div>
+    <button class="nav" data-view="content">▶ ผลงานคลิป</button>
+    <button class="nav" data-view="calendar">▦ ปฏิทินคอนเทนต์</button>
+    <button class="nav" data-view="hooks">✦ คลัง Hook</button>
+  </aside>
+
+  <main>
+    <div class="top">
+      <div>
+        <div class="title">
+          <button class="menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
+          <h1><span>✦</span> Nui OS</h1>
+          <span class="chip">แดชบอร์ดของนุ้ย</span>
+          <span class="chip demo mono">DEMO · ข้อมูลตัวอย่าง</span>
+        </div>
+        <div class="updated mono" id="updated"></div>
+      </div>
+      <button class="btn" data-view="hooks">+ ไอเดียคลิปใหม่</button>
+    </div>
+
+    <!-- ภาพรวม -->
+    <section class="view active" id="overview">
+      <p class="intro">ยอดขาย ebook และผลงานคอนเทนต์รวมไว้ที่เดียว ดูจบในหน้าเดียวว่าอะไรได้ผล อะไรควรทำต่อ</p>
+      <div class="kpis" id="kpis"></div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>ยอดขายแต่ละเล่ม · 30 วันล่าสุด</h2>
+          <span class="chip">ebook</span>
+        </div>
+        <div class="sub">เรียงจากรายได้มากไปน้อย</div>
+        <div class="table-wrap"><table id="salesTable"></table></div>
+      </div>
+
+      <div class="plan">
+        <h2>💡 Action Plan เพิ่มยอดขาย</h2>
+        <ol id="plan"></ol>
+      </div>
+    </section>
+
+    <!-- ยอดขาย -->
+    <section class="view" id="sales">
+      <p class="intro">รายได้จาก ebook แต่ละเล่ม เทียบกันด้วยแถบความยาว</p>
+      <div class="panel">
+        <div class="panel-head"><h2>รายได้ตามเล่ม · 30 วันล่าสุด</h2></div>
+        <div class="table-wrap"><table id="salesBars"></table></div>
+      </div>
+    </section>
+
+    <!-- คลิป -->
+    <section class="view" id="content">
+      <p class="intro">คลิปไหนพาคนมาซื้อ ebook ได้มากที่สุด</p>
+      <div class="panel">
+        <div class="panel-head"><h2>ผลงานคลิป YouTube · 30 วันล่าสุด</h2><span class="chip">YouTube</span></div>
+        <div class="sub">"คนกดลิงก์" = คนที่กดลิงก์ไปหน้าเว็บขาย ebook จากใต้คลิป</div>
+        <div class="table-wrap"><table id="videoTable"></table></div>
+      </div>
+    </section>
+
+    <!-- ปฏิทิน -->
+    <section class="view" id="calendar">
+      <p class="intro">แผนโพสต์สัปดาห์นี้</p>
+      <div class="panel"><div class="week" id="week"></div></div>
+    </section>
+
+    <!-- Hook -->
+    <section class="view" id="hooks">
+      <p class="intro">ประโยคเปิดคลิปที่ได้ผล กดคัดลอกไปใช้ได้เลย</p>
+      <div class="panel"><div class="hooks" id="hookList"></div></div>
+    </section>
+
+    <p class="foot">ตัวเลขในหน้านี้เป็นข้อมูลตัวอย่าง เพื่อให้เห็นหน้าตาระบบ · แก้ข้อมูลได้ที่ส่วน DATA ในโค้ด</p>
+  </main>
+</div>
+
+<script>
+  // ===== DATA: แก้ตัวเลขตรงนี้ (ตอนนี้เป็นข้อมูลตัวอย่าง) =====
+  const DATA = {
+    updated: "อัปเดตล่าสุด · วันนี้ 6:00 น.",
+    kpis: [
+      { label: "ยอดขาย ebook · 30 วัน", value: "฿13,832", delta: 18, unit: "฿", trend: [1420, 1610, 1530, 2050, 1890, 2380, 2952] },
+      { label: "จำนวนเล่มที่ขาย · 30 วัน", value: "68 เล่ม", delta: 12, unit: "เล่ม", trend: [6, 8, 7, 10, 9, 12, 14] },
+      { label: "ผู้ติดตาม YouTube", value: "3,240", delta: 9, unit: "คน", trend: [2950, 2990, 3030, 3080, 3130, 3190, 3240] },
+      { label: "คนกดลิงก์มาหน้าเว็บ · 30 วัน", value: "1,120", delta: -4, unit: "คน", trend: [180, 175, 168, 160, 158, 150, 145] }
+    ],
+    books: [
+      { name: "เริ่มต้นทำงานคนเดียว", price: 199, sold: 38 },
+      { name: "เซ็ตคู่ 2 เล่ม", price: 299, sold: 12 },
+      { name: "จัดวันให้ทันชีวิต", price: 149, sold: 18 }
+    ],
+    videos: [
+      { title: "วันทำงานของคนทำงานคนเดียว", views: 18400, clicks: 520, sales: 31 },
+      { title: "ตั้งราคายังไงไม่ให้ขาดทุน", views: 9600, clicks: 310, sales: 22 },
+      { title: "5 แอปที่ช่วยจัดเวลา", views: 12100, clicks: 180, sales: 9 },
+      { title: "ลาออกมาทำเอง ดีจริงไหม", views: 22300, clicks: 110, sales: 6 }
+    ],
+    plan: [
+      ["ทำคลิปแนว \"วันทำงานจริง\" เพิ่ม", "คลิปนี้มีคนกดลิงก์มากที่สุดและขายได้ 31 เล่ม → ทำภาค 2 ภายในสัปดาห์นี้"],
+      ["ดันเซ็ตคู่ให้มากขึ้น", "ได้เงินต่อออเดอร์มากที่สุด (฿299) → ใส่ปุ่มเซ็ตคู่ไว้บนสุดของหน้าเว็บ และพูดถึงท้ายคลิป"],
+      ["คนกดลิงก์ลดลง 4%", "คลิปยอดวิวสูงแต่คนกดลิงก์น้อย → ปักหมุดคอมเมนต์ลิงก์ ebook และพูดชวนในคลิปช่วงนาทีแรก"]
+    ],
+    week: {
+      "จ.": [["คลิปยาว", "วันทำงานจริง ภาค 2"]],
+      "อ.": [["Shorts", "ตัดจากคลิปวันจันทร์"]],
+      "พ.": [["โพสต์ FB", "รีวิวจากผู้อ่าน"]],
+      "พฤ.": [["Shorts", "1 ทริคตั้งราคา"]],
+      "ศ.": [["Live", "ถามตอบ ทำงานคนเดียว"]],
+      "ส.": [],
+      "อา.": [["วางแผน", "เตรียมคอนเทนต์สัปดาห์หน้า"]]
+    },
+    hooks: [
+      ["ถ้าคุณทำงานคนเดียวแล้วรู้สึกว่าไม่มีวันหยุด คลิปนี้สำหรับคุณ", "ใช้กับคลิปจัดเวลา"],
+      ["นี่คือความผิดพลาดที่ทำให้ฉันขาดทุนเดือนแรก", "ใช้กับคลิปตั้งราคา"],
+      ["3 อย่างที่อยากรู้ก่อนลาออกมาทำเอง", "ใช้กับคลิปเริ่มต้น"],
+      ["วันนี้ทำงานแค่ 4 ชั่วโมง แต่ได้งานมากกว่าเดิม ทำยังไง?", "ใช้กับคลิปวันทำงานจริง"]
+    ]
+  };
+  // ===== จบส่วน DATA =====
+
+  const baht = (n) => "฿" + n.toLocaleString("th-TH");
+  const $ = (id) => document.getElementById(id);
+  $("updated").textContent = DATA.updated;
+
+  // การ์ดตัวเลขพร้อมกราฟเส้นเล็ก ชี้ที่กราฟเพื่อดูค่าแต่ละช่วง
+  DATA.kpis.forEach((k) => {
+    const card = document.createElement("div");
+    card.className = "kpi";
+    const w = 160, h = 40, min = Math.min(...k.trend), max = Math.max(...k.trend);
+    const pts = k.trend.map((v, i) => [i * w / (k.trend.length - 1), h - 4 - (v - min) / (max - min || 1) * (h - 8)]);
+    const color = k.delta >= 0 ? "var(--good)" : "var(--bad)";
+    card.innerHTML = `
+      <div class="label">${k.label}</div>
+      <div class="value">${k.value}</div>
+      <div class="row">
+        <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" role="img" aria-label="แนวโน้ม ${k.label}">
+          <polyline points="${pts.map((p) => p.join(",")).join(" ")}" fill="none" stroke="${color}" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle r="4" fill="${color}" stroke="#fff" stroke-width="2" style="display:none" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <span class="delta ${k.delta >= 0 ? "up" : "down"}">${k.delta >= 0 ? "▲ +" : "▼ "}${k.delta}%</span>
+      </div>
+      <div class="tip"></div>`;
+    const svg = card.querySelector("svg"), dot = card.querySelector("circle"), tip = card.querySelector(".tip");
+    svg.addEventListener("mousemove", (e) => {
+      const r = svg.getBoundingClientRect();
+      const i = Math.round((e.clientX - r.left) / r.width * (k.trend.length - 1));
+      const [x, y] = pts[i];
+      dot.setAttribute("cx", x); dot.setAttribute("cy", y); dot.style.display = "";
+      tip.textContent = `สัปดาห์ที่ ${i + 1}: ${k.unit === "฿" ? baht(k.trend[i]) : k.trend[i].toLocaleString("th-TH") + " " + k.unit}`;
+      const cr = card.getBoundingClientRect();
+      tip.style.left = (r.left - cr.left + x / w * r.width) + "px";
+      tip.style.top = (r.top - cr.top + y / h * r.height) + "px";
+      tip.style.display = "block";
+    });
+    svg.addEventListener("mouseleave", () => { dot.style.display = "none"; tip.style.display = "none"; });
+    $("kpis").appendChild(card);
+  });
+
+  // ตารางยอดขาย
+  const books = DATA.books.map((b) => ({ ...b, revenue: b.price * b.sold })).sort((a, b) => b.revenue - a.revenue);
+  const total = books.reduce((s, b) => s + b.revenue, 0);
+  const totalSold = books.reduce((s, b) => s + b.sold, 0);
+  $("salesTable").innerHTML =
+    `<tr><th>ebook</th><th>ราคา</th><th>ขายได้</th><th>รายได้</th><th>สัดส่วน</th></tr>` +
+    books.map((b) => `<tr><td>${b.name}</td><td class="num">${baht(b.price)}</td><td class="num">${b.sold}</td><td class="num">${baht(b.revenue)}</td><td class="num">${Math.round(b.revenue / total * 100)}%</td></tr>`).join("") +
+    `<tr class="total"><td>รวมทั้งหมด</td><td></td><td class="num">${totalSold}</td><td class="num">${baht(total)}</td><td class="num">100%</td></tr>`;
+
+  const maxRev = books[0].revenue;
+  $("salesBars").innerHTML =
+    `<tr><th>ebook</th><th style="text-align:left">รายได้</th></tr>` +
+    books.map((b) => `<tr title="${b.name}: ${baht(b.revenue)} (${b.sold} เล่ม)"><td>${b.name}</td><td style="text-align:left"><span class="bar" style="width:${Math.max(4, b.revenue / maxRev * 240)}px"></span><span class="num mono">${baht(b.revenue)}</span></td></tr>`).join("");
+
+  // ตารางคลิป
+  $("videoTable").innerHTML =
+    `<tr><th>คลิป</th><th>ยอดวิว</th><th>คนกดลิงก์</th><th>อัตรากดลิงก์</th><th>ขายได้</th></tr>` +
+    DATA.videos.map((v) => {
+      const rate = v.clicks / v.views * 100;
+      return `<tr><td>${v.title}</td><td class="num">${v.views.toLocaleString("th-TH")}</td><td class="num">${v.clicks}</td><td class="num ${rate >= 2 ? "up" : rate < 1 ? "down" : ""}">${rate.toFixed(1)}%</td><td class="num">${v.sales} เล่ม</td></tr>`;
+    }).join("");
+
+  // แผน
+  $("plan").innerHTML = DATA.plan.map(([t, d]) => `<li><b>${t}</b><p>${d}</p></li>`).join("");
+
+  // ปฏิทิน
+  $("week").innerHTML = Object.entries(DATA.week).map(([day, posts]) =>
+    `<div class="day"><h3>${day}</h3>${posts.length ? posts.map(([type, t]) => `<div class="post"><small>${type}</small>${t}</div>`).join("") : `<small style="color:var(--faint)">วันพัก 🌿</small>`}</div>`
+  ).join("");
+
+  // คลัง Hook
+  $("hookList").innerHTML = DATA.hooks.map(([h, note], i) =>
+    `<div class="hook"><div>${h}<small>${note}</small></div><button class="copy" data-i="${i}">คัดลอก</button></div>`
+  ).join("");
+  $("hookList").addEventListener("click", async (e) => {
+    const b = e.target.closest(".copy");
+    if (!b) return;
+    try { await navigator.clipboard.writeText(DATA.hooks[b.dataset.i][0]); b.textContent = "คัดลอกแล้ว ✓"; }
+    catch { b.textContent = "คัดลอกไม่ได้"; }
+    setTimeout(() => (b.textContent = "คัดลอก"), 1500);
+  });
+
+  // สลับหน้า
+  const side = $("side");
+  document.querySelectorAll("[data-view]").forEach((btn) => btn.addEventListener("click", () => {
+    const v = btn.dataset.view;
+    document.querySelectorAll(".view").forEach((s) => s.classList.toggle("active", s.id === v));
+    document.querySelectorAll(".nav").forEach((n) => {
+      if (n.dataset.view === v) n.setAttribute("aria-current", "page");
+      else n.removeAttribute("aria-current");
+    });
+    side.classList.remove("open");
+    window.scrollTo(0, 0);
+  }));
+  $("menuBtn").addEventListener("click", () => side.classList.toggle("open"));
+</script>
+</body>
+</html>
