@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nui OS | แดชบอร์ดของนุ้ย</title>
+  <title>Nui OS | ระบบธุรกิจคนเดียวของนุ้ย</title>
   <meta name="robots" content="noindex">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,118 +18,223 @@
       --faint: #9A9087;
       --accent: #C8734F;
       --accent-dark: #A85B3B;
+      --accent-soft: #F3D9CB;
       --soft: #F1E4D6;
       --line: #E6D9CA;
       --good: #2F855A;
+      --good-soft: #E3F1E8;
+      --warn: #B7791F;
+      --warn-soft: #FBF0D9;
       --bad: #C53030;
       --plan-bg: #FBEDE6;
       --plan-line: #EBC3B0;
+      --dark: #2E2A26;
     }
     * { box-sizing: border-box; }
-    body {
-      margin: 0; background: var(--bg); color: var(--ink);
-      font-family: "Sarabun", system-ui, sans-serif; font-size: 16px; line-height: 1.6;
-    }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Sarabun", system-ui, sans-serif; font-size: 16px; line-height: 1.6; }
     h1, h2, h3 { font-family: "Prompt", sans-serif; margin: 0; line-height: 1.3; }
     .mono { font-family: "IBM Plex Mono", monospace; }
     button { font-family: inherit; }
 
     .app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; max-width: 1280px; margin: 0 auto; }
 
-    /* แถบเมนูซ้าย */
+    /* เมนูซ้าย */
     aside { background: var(--side); border-right: 1px solid var(--line); padding: 20px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
-    .profile { display: flex; gap: 10px; align-items: center; margin-bottom: 24px; }
-    .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-family: "Prompt"; font-size: 18px; }
+    .profile { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-family: "Prompt"; font-size: 18px; flex-shrink: 0; }
     .profile b { display: block; line-height: 1.2; }
     .profile small { color: var(--faint); font-size: 12px; }
-    .group { font-size: 11px; color: var(--faint); letter-spacing: .08em; margin: 18px 10px 6px; }
-    .nav { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; background: none; border: 0; padding: 9px 12px; border-radius: 10px; color: var(--muted); cursor: pointer; font-size: 15px; }
+    .group { font-size: 11px; color: var(--faint); letter-spacing: .08em; margin: 16px 10px 4px; }
+    .nav { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; background: none; border: 0; padding: 8px 12px; border-radius: 10px; color: var(--muted); cursor: pointer; font-size: 15px; }
     .nav:hover { background: var(--soft); color: var(--ink); }
     .nav[aria-current="page"] { background: var(--soft); color: var(--accent-dark); font-weight: 600; }
-    .nav:focus-visible { outline: 2px solid var(--accent); }
+    .nav.map { border: 1px dashed var(--plan-line); }
+    .nav .new { margin-left: auto; font-size: 10px; background: var(--accent); color: #fff; padding: 0 6px; border-radius: 999px; }
+    .nav:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-    /* ส่วนหลัก */
     main { padding: 20px 28px 48px; min-width: 0; }
     .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
     .title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .title h1 { font-size: 22px; }
     .title h1 span { color: var(--accent); }
-    .chip { font-size: 11px; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--plan-line); color: var(--accent-dark); background: var(--plan-bg); }
+    .chip { font-size: 11px; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--plan-line); color: var(--accent-dark); background: var(--plan-bg); white-space: nowrap; }
     .chip.demo { border-color: var(--line); color: var(--muted); background: var(--surface); }
+    .chip.good { border-color: #BFDCC9; color: var(--good); background: var(--good-soft); }
+    .chip.warn { border-color: #EBD3A5; color: var(--warn); background: var(--warn-soft); }
     .updated { font-size: 12px; color: var(--faint); margin-top: 2px; }
     .updated::before { content: "●"; color: var(--good); margin-right: 6px; }
     .menu-btn { display: none; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; width: 40px; height: 40px; font-size: 18px; cursor: pointer; }
-    .btn { background: var(--surface); border: 1px solid var(--plan-line); color: var(--accent-dark); padding: 8px 16px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 14px; }
+    .btn { background: var(--surface); border: 1px solid var(--plan-line); color: var(--accent-dark); padding: 7px 14px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap; }
     .btn:hover { background: var(--plan-bg); }
-    .intro { color: var(--muted); margin: 16px 0 20px; }
+    .btn.solid { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn.solid:hover { background: var(--accent-dark); }
+    .btn.small { padding: 4px 10px; font-size: 13px; font-weight: 400; }
+    .intro { color: var(--muted); margin: 16px 0 18px; }
 
     .view { display: none; }
-    .view.active { display: block; }
+    .view.active { display: block; animation: fade .25s ease; }
+    @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
-    /* การ์ดตัวเลข */
-    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-    .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; position: relative; }
+    .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin-top: 16px; }
+    .panel-head { display: flex; justify-content: space-between; align-items: start; gap: 12px; margin-bottom: 4px; flex-wrap: wrap; }
+    .panel-head h2 { font-size: 18px; }
+    .sub { font-size: 13px; color: var(--faint); margin-bottom: 12px; }
+    .ai { font-size: 12px; color: var(--accent-dark); margin-bottom: 12px; }
+    .ai::before { content: "✦ "; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid2 > .panel { margin-top: 0; }
+    .row-gap { margin-top: 16px; }
+
+    /* ---------- วันนี้ ---------- */
+    .hello { background: var(--dark); color: #fff; border-radius: 20px; padding: 24px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; }
+    .hello h2 { font-size: 22px; margin-bottom: 4px; }
+    .hello p { margin: 0; color: #D8CFC5; }
+    .goal { min-width: 220px; }
+    .goal .bar-bg { height: 10px; background: rgba(255,255,255,.15); border-radius: 999px; overflow: hidden; margin: 8px 0 6px; position: relative; }
+    .goal .bar-fill { height: 100%; background: var(--accent); border-radius: 999px; }
+    .goal .bar-pace { position: absolute; top: -3px; width: 2px; height: 16px; background: #fff; }
+    .goal small { color: #D8CFC5; font-size: 12px; }
+    .goal b { font-family: "Prompt"; font-size: 24px; }
+
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+    .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; position: relative; min-width: 0; }
     .kpi .label { font-size: 12px; color: var(--muted); }
-    .kpi .value { font-family: "Prompt"; font-size: 30px; margin: 2px 0 6px; }
+    .kpi .value { font-family: "Prompt"; font-size: 26px; margin: 2px 0 4px; }
     .kpi .row { display: flex; align-items: end; gap: 8px; }
-    .kpi svg { flex: 1; height: 40px; overflow: visible; }
+    .kpi svg { flex: 1; height: 34px; overflow: visible; }
     .delta { font-size: 13px; font-weight: 600; white-space: nowrap; }
     .up { color: var(--good); }
     .down { color: var(--bad); }
-    .tip {
-      position: absolute; pointer-events: none; background: var(--ink); color: #fff;
-      font-size: 12px; padding: 4px 8px; border-radius: 6px; white-space: nowrap;
-      transform: translate(-50%, -110%); display: none;
-    }
+    .tip { position: absolute; pointer-events: none; background: var(--ink); color: #fff; font-size: 12px; padding: 4px 8px; border-radius: 6px; white-space: nowrap; transform: translate(-50%, -115%); display: none; z-index: 5; }
 
-    /* กล่องเนื้อหา */
-    .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin-top: 20px; }
-    .panel-head { display: flex; justify-content: space-between; align-items: start; gap: 12px; margin-bottom: 4px; }
-    .panel-head h2 { font-size: 18px; }
-    .sub { font-size: 13px; color: var(--faint); margin-bottom: 12px; }
+    .todo { display: grid; gap: 10px; }
+    .task { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; background: var(--side); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+    .task input { width: 22px; height: 22px; accent-color: var(--accent); cursor: pointer; }
+    .task.done .t-title { text-decoration: line-through; color: var(--faint); }
+    .t-title { font-weight: 600; }
+    .t-why { font-size: 13px; color: var(--muted); }
+    .t-meta { font-size: 12px; color: var(--faint); }
+
+    .energy { display: flex; gap: 6px; align-items: end; height: 70px; margin: 8px 0 6px; }
+    .energy div { flex: 1; border-radius: 4px 4px 0 0; background: var(--accent-soft); position: relative; }
+    .energy div.over { background: var(--accent); }
+    .energy div.today { outline: 2px solid var(--ink); outline-offset: 1px; }
+    .energy-days { display: flex; gap: 6px; font-size: 12px; color: var(--faint); }
+    .energy-days span { flex: 1; text-align: center; }
+    .legend { display: flex; gap: 14px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+    .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: middle; }
+
+    /* ---------- เส้นทางเงิน ---------- */
+    .funnel { display: grid; gap: 4px; }
+    .f-step { display: grid; grid-template-columns: 130px 1fr 110px; gap: 12px; align-items: center; }
+    .f-name { font-size: 14px; color: var(--muted); }
+    .f-bar { height: 34px; background: var(--accent); border-radius: 0 6px 6px 0; display: flex; align-items: center; padding-left: 10px; color: #fff; font-family: "IBM Plex Mono"; font-size: 13px; min-width: 48px; }
+    .f-rate { font-size: 13px; color: var(--muted); text-align: right; }
+    .f-rate.leak { color: var(--bad); font-weight: 600; }
+    .f-gap { grid-column: 2; font-size: 12px; color: var(--faint); padding-left: 4px; }
+
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 15px; }
     th { text-align: right; font-weight: 400; color: var(--faint); font-size: 13px; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
-    td { text-align: right; padding: 12px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+    td { text-align: right; padding: 11px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
     th:first-child, td:first-child { text-align: left; white-space: normal; }
     td:first-child { font-weight: 600; }
-    tr.total td { border-bottom: 0; font-weight: 600; }
     td.num { font-family: "IBM Plex Mono", monospace; font-size: 14px; }
-    .bar { display: inline-block; height: 8px; border-radius: 0 4px 4px 0; background: var(--accent); vertical-align: middle; margin-right: 8px; }
+    tr:last-child td { border-bottom: 0; }
+    .inbar { display: inline-block; height: 8px; background: var(--accent); border-radius: 0 4px 4px 0; vertical-align: middle; margin-right: 8px; }
 
-    /* แผนและไอเดีย */
-    .plan { background: var(--plan-bg); border: 1px solid var(--plan-line); border-radius: 16px; padding: 20px; margin-top: 20px; }
-    .plan h2 { font-size: 17px; color: var(--accent-dark); margin-bottom: 10px; }
-    .plan ol { margin: 0; padding-left: 1.2em; }
-    .plan li { margin-bottom: 12px; }
-    .plan li b { color: var(--accent-dark); }
-    .plan p { margin: 0; }
+    /* ---------- เรดาร์ความต้องการ ---------- */
+    .demand { display: grid; gap: 10px; }
+    .d-item { border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: center; }
+    .d-item h3 { font-size: 16px; }
+    .d-quotes { grid-column: 1 / -1; font-size: 13px; color: var(--muted); }
+    .d-quotes span { display: inline-block; background: var(--side); border: 1px solid var(--line); border-radius: 999px; padding: 1px 10px; margin: 2px 4px 2px 0; }
+    .d-count { font-family: "Prompt"; font-size: 22px; color: var(--accent-dark); text-align: right; line-height: 1; }
+    .d-count small { display: block; font-family: "Sarabun"; font-size: 12px; color: var(--faint); }
+    .meter { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; margin: 10px 0 6px; }
+    .meter i { height: 14px; border-radius: 3px; background: var(--soft); }
+    .meter i.on { background: var(--accent); }
 
-    /* ปฏิทิน */
+    /* ---------- แผนผังระบบ ---------- */
+    .map { text-align: center; }
+    .map-kicker { font-size: 12px; color: var(--accent-dark); letter-spacing: .1em; }
+    .map h2 { font-size: 26px; margin: 4px 0; }
+    .map h2 em { font-style: normal; color: var(--accent); }
+    .zone { border: 1px dashed var(--plan-line); border-radius: 16px; padding: 14px; margin-top: 14px; }
+    .zone-label { font-size: 11px; color: var(--faint); letter-spacing: .12em; margin-bottom: 10px; }
+    .nodes { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+    .node { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; text-align: center; cursor: pointer; transition: transform .15s, box-shadow .15s; }
+    .node:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(46,42,38,.08); }
+    .node b { display: block; font-size: 14px; }
+    .node small { font-size: 11px; color: var(--faint); }
+    .node .ico { font-size: 20px; }
+    .stages { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; text-align: left; }
+    .stage { border-radius: 14px; padding: 14px; border: 1px solid var(--line); }
+    .stage h3 { font-size: 15px; margin-bottom: 2px; }
+    .stage p { font-size: 12px; color: var(--muted); margin: 0 0 8px; }
+    .stage .node { text-align: left; margin-top: 6px; padding: 8px 10px; }
+    .s1 { background: #FBEDE6; } .s2 { background: #FBF0D9; } .s3 { background: #F1E4D6; } .s4 { background: #E3F1E8; }
+    .loop { margin-top: 12px; background: var(--soft); border-radius: 12px; padding: 10px; font-size: 13px; color: var(--muted); }
+    .new-tag { font-size: 10px; background: var(--accent); color: #fff; padding: 0 6px; border-radius: 999px; vertical-align: middle; margin-left: 4px; }
+
+    /* ---------- ปฏิทิน ---------- */
     .week { display: grid; grid-template-columns: repeat(7, minmax(120px, 1fr)); gap: 10px; overflow-x: auto; }
-    .day { background: var(--side); border: 1px solid var(--line); border-radius: 12px; padding: 10px; min-height: 160px; }
-    .day h3 { font-size: 14px; margin-bottom: 8px; }
+    .day { background: var(--side); border: 1px solid var(--line); border-radius: 12px; padding: 10px; min-height: 170px; }
+    .day.pay { border: 2px solid var(--good); }
+    .day h3 { font-size: 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .day h3 small { font-family: "Sarabun"; font-weight: 400; font-size: 11px; color: var(--good); }
     .post { background: var(--surface); border-left: 3px solid var(--accent); border-radius: 6px; padding: 6px 8px; font-size: 13px; margin-bottom: 6px; }
     .post small { display: block; color: var(--faint); }
+    .post.sell { border-left-color: var(--good); }
 
-    /* คลัง Hook */
+    /* ---------- ห้องทดลอง / hook ---------- */
+    .exp { display: grid; gap: 10px; }
+    .x-item { border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+    .x-head { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+    .ab { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .ab div { background: var(--side); border-radius: 10px; padding: 10px; font-size: 14px; border: 1px solid var(--line); }
+    .ab div.win { border: 2px solid var(--good); background: var(--good-soft); }
+    .ab small { display: block; color: var(--faint); font-size: 12px; }
+    .learn { font-size: 13px; color: var(--muted); margin-top: 8px; }
+    .learn b { color: var(--ink); }
+
     .hooks { display: grid; gap: 10px; }
-    .hook { display: flex; justify-content: space-between; align-items: center; gap: 12px; background: var(--side); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+    .hook { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; background: var(--side); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
     .hook small { display: block; color: var(--faint); font-size: 12px; }
-    .copy { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; cursor: pointer; white-space: nowrap; }
+    .hook .acts { display: flex; gap: 6px; flex-wrap: wrap; justify-content: end; }
+    .score { font-family: "IBM Plex Mono"; font-size: 12px; color: var(--good); }
+
+    .plan { background: var(--plan-bg); border: 1px solid var(--plan-line); border-radius: 16px; padding: 18px 20px; margin-top: 16px; }
+    .plan h2 { font-size: 16px; color: var(--accent-dark); margin-bottom: 6px; }
+    .plan p { margin: 0; }
+
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--ink); color: #fff; padding: 10px 18px; border-radius: 999px; font-size: 14px; transition: transform .25s, opacity .25s; z-index: 50; opacity: 0; }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
     .foot { text-align: center; color: var(--faint); font-size: 12px; margin-top: 28px; }
 
-    @media (max-width: 860px) {
+    @media (max-width: 960px) {
+      .kpis { grid-template-columns: 1fr 1fr; }
+      .stages { grid-template-columns: 1fr 1fr; }
+      .grid2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
       .app { grid-template-columns: 1fr; }
       aside { position: fixed; inset: 0 auto 0 0; width: 260px; z-index: 30; transform: translateX(-100%); transition: transform .2s; box-shadow: 8px 0 24px rgba(0,0,0,.1); }
       aside.open { transform: none; }
       .menu-btn { display: inline-block; }
       main { padding: 16px; }
-      .kpis { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .hello { grid-template-columns: 1fr; }
       .kpi { padding: 12px; }
       .kpi .value { font-size: 22px; }
       .kpi .row { flex-direction: column; align-items: stretch; gap: 2px; }
+      .stages { grid-template-columns: 1fr; }
+      .f-step { grid-template-columns: 84px 1fr 64px; gap: 8px; }
+      .task { grid-template-columns: auto 1fr; }
+      .task .btn { grid-column: 2; justify-self: start; }
+      .hook { grid-template-columns: 1fr; }
+      .hook .acts { justify-content: start; }
+      .ab { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -140,12 +245,14 @@
       <div class="avatar">น</div>
       <div><b>นุ้ย</b><small class="mono">ebook · YouTube</small></div>
     </div>
-    <button class="nav" data-view="overview" aria-current="page">▣ ภาพรวม</button>
-    <div class="group">ขาย</div>
-    <button class="nav" data-view="sales">฿ ยอดขาย ebook</button>
+    <button class="nav map" data-view="map">⌗ แผนผังระบบ</button>
+    <button class="nav" data-view="today" aria-current="page">☀ วันนี้</button>
+    <div class="group">เงิน</div>
+    <button class="nav" data-view="money">฿ เส้นทางเงิน <span class="new">ใหม่</span></button>
+    <button class="nav" data-view="demand">◎ เรดาร์ลูกค้า <span class="new">ใหม่</span></button>
     <div class="group">คอนเทนต์</div>
-    <button class="nav" data-view="content">▶ ผลงานคลิป</button>
-    <button class="nav" data-view="calendar">▦ ปฏิทินคอนเทนต์</button>
+    <button class="nav" data-view="calendar">▦ ปฏิทิน + วันเงินเดือนออก</button>
+    <button class="nav" data-view="lab">⚗ ห้องทดลอง <span class="new">ใหม่</span></button>
     <button class="nav" data-view="hooks">✦ คลัง Hook</button>
   </aside>
 
@@ -155,142 +262,263 @@
         <div class="title">
           <button class="menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
           <h1><span>✦</span> Nui OS</h1>
-          <span class="chip">แดชบอร์ดของนุ้ย</span>
+          <span class="chip">ระบบธุรกิจคนเดียว</span>
           <span class="chip demo mono">DEMO · ข้อมูลตัวอย่าง</span>
         </div>
         <div class="updated mono" id="updated"></div>
       </div>
-      <button class="btn" data-view="hooks">+ ไอเดียคลิปใหม่</button>
+      <button class="btn solid" data-prompt="brief">✦ ให้ Claude สรุปวันนี้</button>
     </div>
 
-    <!-- ภาพรวม -->
-    <section class="view active" id="overview">
-      <p class="intro">ยอดขาย ebook และผลงานคอนเทนต์รวมไว้ที่เดียว ดูจบในหน้าเดียวว่าอะไรได้ผล อะไรควรทำต่อ</p>
+    <!-- ===== แผนผังระบบ ===== -->
+    <section class="view" id="map">
+      <div class="map panel">
+        <div class="map-kicker mono">✦ SOLO BUSINESS OS · ทำงานคนเดียว แต่มีระบบเหมือนทีม</div>
+        <h2>จากคลิป → <em>ถึงเงินในบัญชี</em> → กลับมาเป็นไอเดียใหม่</h2>
+        <div class="sub">กดกล่องไหนก็ได้เพื่อเข้าไปดูข้างใน</div>
+
+        <div class="zone">
+          <div class="zone-label mono">CORE · สมองของระบบ</div>
+          <div class="nodes">
+            <div class="node" data-view="today"><div class="ico">✦</div><b>Claude</b><small class="mono">วิเคราะห์ + ร่างงาน</small></div>
+            <div class="node" data-view="demand"><div class="ico">▤</div><b>สมุดความจำ</b><small class="mono">Notion / Drive</small></div>
+            <div class="node" data-view="today"><div class="ico">◷</div><b>ทำงานเองทุกเช้า</b><small class="mono">ตั้งเวลา 6:00</small></div>
+            <div class="node" data-view="money"><div class="ico">⇄</div><b>แหล่งข้อมูล</b><small class="mono">YouTube · LINE · พร้อมเพย์</small></div>
+          </div>
+        </div>
+
+        <div class="stages">
+          <div class="stage s1">
+            <h3>01 ฟังลูกค้า</h3><p>รู้ว่าคนอยากได้อะไร ก่อนลงมือทำ</p>
+            <div class="node" data-view="demand"><b>◎ เรดาร์ลูกค้า <span class="new-tag">ใหม่</span></b><small>คำถามใน LINE + คอมเมนต์ → ไอเดียสินค้า</small></div>
+          </div>
+          <div class="stage s2">
+            <h3>02 วางแผน</h3><p>ทำเฉพาะที่ใช่ ไม่เหนื่อยเกินตัว</p>
+            <div class="node" data-view="calendar"><b>▦ ปฏิทิน</b><small>ปักวันเงินเดือนออก ขายตอนคนมีเงิน</small></div>
+            <div class="node" data-view="today"><b>⚡ งบพลังงาน <span class="new-tag">ใหม่</span></b><small>กันไม่ให้ทำงานเกินตัว</small></div>
+          </div>
+          <div class="stage s3">
+            <h3>03 ทดลอง</h3><p>ทุกคลิปคือการทดลองหนึ่งครั้ง</p>
+            <div class="node" data-view="lab"><b>⚗ ห้องทดลอง <span class="new-tag">ใหม่</span></b><small>ทดสอบ hook A/B แล้วจดว่าเรียนรู้อะไร</small></div>
+            <div class="node" data-view="hooks"><b>✦ คลัง Hook</b><small>เรียงตามยอดขาย ไม่ใช่ยอดวิว</small></div>
+          </div>
+          <div class="stage s4">
+            <h3>04 วัดเป็นเงิน</h3><p>รู้ว่าคลิปไหนทำเงินจริง</p>
+            <div class="node" data-view="money"><b>฿ เส้นทางเงิน <span class="new-tag">ใหม่</span></b><small>วิว → คลิก → ซื้อ รู้ว่ารั่วตรงไหน</small></div>
+          </div>
+        </div>
+        <div class="loop">↻ ผลขายและคำถามลูกค้าวนกลับไปที่ "01 ฟังลูกค้า" → ebook เล่มต่อไปและคอร์ส มาจากความต้องการจริง ไม่ต้องเดา</div>
+      </div>
+    </section>
+
+    <!-- ===== วันนี้ ===== -->
+    <section class="view active" id="today">
+      <div class="hello">
+        <div>
+          <h2 id="greet"></h2>
+          <p>วันนี้ทำแค่ 3 อย่างนี้ก็พอ ที่เหลือระบบดูให้</p>
+        </div>
+        <div class="goal" id="goal"></div>
+      </div>
       <div class="kpis" id="kpis"></div>
 
-      <div class="panel">
-        <div class="panel-head">
-          <h2>ยอดขายแต่ละเล่ม · 30 วันล่าสุด</h2>
-          <span class="chip">ebook</span>
+      <div class="grid2 row-gap">
+        <div class="panel">
+          <div class="panel-head"><h2>3 อย่างที่ควรทำวันนี้</h2><span class="chip">เรียงตามผลต่อยอดขาย</span></div>
+          <div class="ai">Claude เลือกจากข้อมูลขาย คลิป และคำถามลูกค้าเมื่อวาน</div>
+          <div class="todo" id="todo"></div>
         </div>
-        <div class="sub">เรียงจากรายได้มากไปน้อย</div>
-        <div class="table-wrap"><table id="salesTable"></table></div>
-      </div>
-
-      <div class="plan">
-        <h2>💡 Action Plan เพิ่มยอดขาย</h2>
-        <ol id="plan"></ol>
+        <div class="panel">
+          <div class="panel-head"><h2>⚡ งบพลังงานสัปดาห์นี้</h2><span class="chip warn" id="energyChip"></span></div>
+          <div class="sub">ชั่วโมงทำงานที่วางแผนไว้ เทียบกับเพดานที่นุ้ยตั้งไว้วันละ <b id="cap"></b> ชม.</div>
+          <div class="energy" id="energy"></div>
+          <div class="energy-days" id="energyDays"></div>
+          <div class="legend" style="margin-top: 10px;"><span><i style="background: var(--accent-soft)"></i>ไม่เกินเพดาน</span><span><i style="background: var(--accent)"></i>เกินเพดาน</span></div>
+          <div class="plan" style="margin-top: 14px; padding: 12px 14px;"><p id="energyTip"></p></div>
+        </div>
       </div>
     </section>
 
-    <!-- ยอดขาย -->
-    <section class="view" id="sales">
-      <p class="intro">รายได้จาก ebook แต่ละเล่ม เทียบกันด้วยแถบความยาว</p>
+    <!-- ===== เส้นทางเงิน ===== -->
+    <section class="view" id="money">
+      <p class="intro">ดูทั้งเส้นทาง ตั้งแต่คนเห็นคลิปจนโอนเงิน ว่าลูกค้าหลุดหายไปตรงไหนมากที่สุด</p>
       <div class="panel">
-        <div class="panel-head"><h2>รายได้ตามเล่ม · 30 วันล่าสุด</h2></div>
-        <div class="table-wrap"><table id="salesBars"></table></div>
+        <div class="panel-head"><h2>เส้นทางเงิน · 30 วันล่าสุด</h2><span class="chip">YouTube → เว็บ → LINE → โอน</span></div>
+        <div class="sub">ตัวเลขด้านขวาคือ % ที่ไปต่อขั้นถัดไป · <span style="color: var(--bad)">สีแดง</span> = จุดรั่วที่ใหญ่ที่สุด</div>
+        <div class="funnel" id="funnel"></div>
+        <div class="plan"><h2>✦ จุดรั่วใหญ่ที่สุด</h2><p id="leak"></p></div>
       </div>
-    </section>
-
-    <!-- คลิป -->
-    <section class="view" id="content">
-      <p class="intro">คลิปไหนพาคนมาซื้อ ebook ได้มากที่สุด</p>
       <div class="panel">
-        <div class="panel-head"><h2>ผลงานคลิป YouTube · 30 วันล่าสุด</h2><span class="chip">YouTube</span></div>
-        <div class="sub">"คนกดลิงก์" = คนที่กดลิงก์ไปหน้าเว็บขาย ebook จากใต้คลิป</div>
-        <div class="table-wrap"><table id="videoTable"></table></div>
+        <div class="panel-head"><h2>เงินต่อคลิป</h2><span class="chip good">วัดเป็นบาท ไม่ใช่ยอดวิว</span></div>
+        <div class="sub">คลิปยอดวิวสูงสุด ไม่ใช่คลิปที่ทำเงินได้มากสุดเสมอไป</div>
+        <div class="table-wrap"><table id="clipTable"></table></div>
       </div>
     </section>
 
-    <!-- ปฏิทิน -->
+    <!-- ===== เรดาร์ลูกค้า ===== -->
+    <section class="view" id="demand">
+      <p class="intro">รวมคำถามจาก LINE คอมเมนต์ YouTube และ DM มาจัดกลุ่ม → รู้ว่า ebook เล่มต่อไปหรือคอร์สควรสอนเรื่องอะไร</p>
+      <div class="panel">
+        <div class="panel-head"><h2>ลูกค้าถามเรื่องอะไรบ่อยที่สุด · 30 วัน</h2><span class="chip">LINE · คอมเมนต์ · DM</span></div>
+        <div class="ai">Claude อ่านข้อความทั้งหมดแล้วจัดกลุ่มให้ทุกเช้า</div>
+        <div class="demand" id="demandList"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>🎓 ทดสอบตลาดคอร์สก่อนทำจริง</h2><span class="chip warn" id="courseChip"></span></div>
+        <div class="sub">เปิดให้ลงชื่อรอก่อน ถ้าถึงเป้าค่อยเริ่มอัดคอร์ส ไม่เสียเวลาทำของที่ไม่มีคนซื้อ</div>
+        <div id="course"></div>
+      </div>
+    </section>
+
+    <!-- ===== ปฏิทิน ===== -->
     <section class="view" id="calendar">
-      <p class="intro">แผนโพสต์สัปดาห์นี้</p>
+      <p class="intro">วางคอนเทนต์ขายให้ตรงกับช่วงที่คนไทยมีเงิน (เงินเดือนออก) · กรอบสีเขียว = ช่วงเงินเดือนออก</p>
       <div class="panel"><div class="week" id="week"></div></div>
+      <div class="legend" style="margin-top: 10px;"><span><i style="background: var(--accent)"></i>คอนเทนต์ให้ความรู้</span><span><i style="background: var(--good)"></i>คอนเทนต์ขาย</span></div>
     </section>
 
-    <!-- Hook -->
+    <!-- ===== ห้องทดลอง ===== -->
+    <section class="view" id="lab">
+      <p class="intro">ทุกคลิปคือการทดลอง ทดสอบทีละอย่าง แล้วจดว่าเรียนรู้อะไร ยิ่งทำนาน ระบบยิ่งรู้ว่าอะไรได้ผลกับลูกค้าของนุ้ย</p>
+      <div class="panel">
+        <div class="panel-head"><h2>การทดลองล่าสุด</h2><span class="chip">A/B</span></div>
+        <div class="exp" id="expList"></div>
+      </div>
+    </section>
+
+    <!-- ===== Hook ===== -->
     <section class="view" id="hooks">
-      <p class="intro">ประโยคเปิดคลิปที่ได้ผล กดคัดลอกไปใช้ได้เลย</p>
+      <p class="intro">เรียงตาม "ยอดขายที่เกิดจากคลิป" ไม่ใช่ยอดวิว · กดปุ่มเพื่อให้ Claude ช่วยต่อยอด</p>
       <div class="panel"><div class="hooks" id="hookList"></div></div>
     </section>
 
-    <p class="foot">ตัวเลขในหน้านี้เป็นข้อมูลตัวอย่าง เพื่อให้เห็นหน้าตาระบบ · แก้ข้อมูลได้ที่ส่วน DATA ในโค้ด</p>
+    <p class="foot">ตัวเลขในหน้านี้เป็นข้อมูลตัวอย่าง เพื่อให้เห็นหน้าตาระบบ · ปุ่ม ✦ จะคัดลอกคำสั่งพร้อมข้อมูล ไปวางใน Claude ได้ทันที</p>
   </main>
 </div>
+<div class="toast" id="toast" role="status"></div>
 
 <script>
   // ===== DATA: แก้ตัวเลขตรงนี้ (ตอนนี้เป็นข้อมูลตัวอย่าง) =====
   const DATA = {
     updated: "อัปเดตล่าสุด · วันนี้ 6:00 น.",
+    goal: { month: 20000, earned: 13832, dayOfMonth: 26, daysInMonth: 31 },
     kpis: [
-      { label: "ยอดขาย ebook · 30 วัน", value: "฿13,832", delta: 18, unit: "฿", trend: [1420, 1610, 1530, 2050, 1890, 2380, 2952] },
-      { label: "จำนวนเล่มที่ขาย · 30 วัน", value: "68 เล่ม", delta: 12, unit: "เล่ม", trend: [6, 8, 7, 10, 9, 12, 14] },
-      { label: "ผู้ติดตาม YouTube", value: "3,240", delta: 9, unit: "คน", trend: [2950, 2990, 3030, 3080, 3130, 3190, 3240] },
-      { label: "คนกดลิงก์มาหน้าเว็บ · 30 วัน", value: "1,120", delta: -4, unit: "คน", trend: [180, 175, 168, 160, 158, 150, 145] }
+      { label: "รายได้ · 30 วัน", value: "฿13,832", delta: 18, unit: "฿", trend: [1420, 1610, 1530, 2050, 1890, 2380, 2952] },
+      { label: "ขายได้ · 30 วัน", value: "68 เล่ม", delta: 12, unit: "เล่ม", trend: [6, 8, 7, 10, 9, 12, 14] },
+      { label: "เงินต่อ 1,000 วิว", value: "฿191", delta: 22, unit: "฿", trend: [120, 134, 140, 152, 160, 177, 191] },
+      { label: "คนกดลิงก์มาหน้าเว็บ", value: "1,120", delta: -4, unit: "คน", trend: [180, 175, 168, 160, 158, 150, 145] }
     ],
-    books: [
-      { name: "เริ่มต้นทำงานคนเดียว", price: 199, sold: 38 },
-      { name: "เซ็ตคู่ 2 เล่ม", price: 299, sold: 12 },
-      { name: "จัดวันให้ทันชีวิต", price: 149, sold: 18 }
+    todo: [
+      { title: "ปักหมุดคอมเมนต์ลิงก์ ebook ใต้คลิป \"ลาออกมาทำเอง\"", why: "คลิปนี้วิวสูงสุด แต่คนกดลิงก์แค่ 0.5% → แก้ 2 นาที อาจได้เพิ่ม ~฿900", time: "2 นาที", prompt: "pin" },
+      { title: "ตอบ 7 คนใน LINE ที่ถามเรื่อง \"ตั้งราคา\"", why: "ถามแล้วยังไม่ได้ซื้อ · ส่งตัวอย่างบทแรกให้อ่านฟรี", time: "15 นาที", prompt: "reply" },
+      { title: "อัดคลิป \"วันทำงานจริง ภาค 2\"", why: "ภาค 1 ทำเงินมากที่สุด ฿5,890 · ตรงกับเงินเดือนออกวันศุกร์", time: "2 ชม.", prompt: "script" }
     ],
-    videos: [
-      { title: "วันทำงานของคนทำงานคนเดียว", views: 18400, clicks: 520, sales: 31 },
-      { title: "ตั้งราคายังไงไม่ให้ขาดทุน", views: 9600, clicks: 310, sales: 22 },
-      { title: "5 แอปที่ช่วยจัดเวลา", views: 12100, clicks: 180, sales: 9 },
-      { title: "ลาออกมาทำเอง ดีจริงไหม", views: 22300, clicks: 110, sales: 6 }
+    energy: { cap: 6, today: 1, hours: [5, 7.5, 4, 6, 8, 2, 1], days: ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."] },
+    // target = % ที่ควรไปต่อขั้นถัดไปได้ · fix = วิธีแก้ถ้าขั้นนี้รั่วมากที่สุด
+    funnel: [
+      { name: "เห็นคลิป", value: 62400 },
+      { name: "กดลิงก์มาเว็บ", value: 1120, target: 0.4, fix: "คนเข้าเว็บแล้วแต่ไม่กดซื้อ · ลองย้ายเซ็ตคู่ไว้บนสุด ใส่ตัวอย่างหน้าในเล่มให้อ่าน และเพิ่มรีวิวจริงจากผู้อ่าน" },
+      { name: "กดปุ่มซื้อ", value: 310, target: 0.7, fix: "กดซื้อแล้วแต่ไม่ทัก LINE · ลองเพิ่มปุ่มโอนแล้วแนบสลิปผ่านหน้าเว็บ ไม่ต้องสลับแอป" },
+      { name: "ทัก LINE", value: 142, target: 0.7, fix: "ทักแล้วแต่ไม่โอน · ส่งข้อความติดตามหลัง 24 ชม. และใส่ QR ในข้อความแรกเลย" },
+      { name: "โอนเงิน", value: 68 }
     ],
-    plan: [
-      ["ทำคลิปแนว \"วันทำงานจริง\" เพิ่ม", "คลิปนี้มีคนกดลิงก์มากที่สุดและขายได้ 31 เล่ม → ทำภาค 2 ภายในสัปดาห์นี้"],
-      ["ดันเซ็ตคู่ให้มากขึ้น", "ได้เงินต่อออเดอร์มากที่สุด (฿299) → ใส่ปุ่มเซ็ตคู่ไว้บนสุดของหน้าเว็บ และพูดถึงท้ายคลิป"],
-      ["คนกดลิงก์ลดลง 4%", "คลิปยอดวิวสูงแต่คนกดลิงก์น้อย → ปักหมุดคอมเมนต์ลิงก์ ebook และพูดชวนในคลิปช่วงนาทีแรก"]
+    clips: [
+      { title: "วันทำงานของคนทำงานคนเดียว", views: 18400, sales: 31, revenue: 5890 },
+      { title: "ตั้งราคายังไงไม่ให้ขาดทุน", views: 9600, sales: 22, revenue: 4580 },
+      { title: "5 แอปที่ช่วยจัดเวลา", views: 12100, sales: 9, revenue: 1640 },
+      { title: "ลาออกมาทำเอง ดีจริงไหม", views: 22300, sales: 6, revenue: 1722 }
     ],
-    week: {
-      "จ.": [["คลิปยาว", "วันทำงานจริง ภาค 2"]],
-      "อ.": [["Shorts", "ตัดจากคลิปวันจันทร์"]],
-      "พ.": [["โพสต์ FB", "รีวิวจากผู้อ่าน"]],
-      "พฤ.": [["Shorts", "1 ทริคตั้งราคา"]],
-      "ศ.": [["Live", "ถามตอบ ทำงานคนเดียว"]],
-      "ส.": [],
-      "อา.": [["วางแผน", "เตรียมคอนเทนต์สัปดาห์หน้า"]]
-    },
+    demand: [
+      { topic: "ตั้งราคาสินค้า/บริการ", count: 41, quotes: ["คิดราคายังไงไม่ให้ขาดทุน", "กลัวตั้งแพงแล้วไม่มีคนซื้อ", "ขึ้นราคายังไงดี"], idea: "ebook เล่มใหม่: \"ตั้งราคาให้กล้าขาย\"" },
+      { topic: "หาลูกค้ารายแรก", count: 28, quotes: ["ไม่มีใครรู้จักเลย เริ่มยังไง", "ต้องยิงแอดไหม"], idea: "บทหนึ่งในคอร์ส" },
+      { topic: "ภาษีของคนทำงานอิสระ", count: 17, quotes: ["ต้องยื่นภาษียังไง", "ต้องจดทะเบียนไหม"], idea: "คลิป YouTube ช่วงต้นปี" }
+    ],
+    course: { name: "คอร์ส \"ทำงานคนเดียวให้เป็นระบบ\"", waitlist: 64, target: 100 },
+    week: [
+      { day: "จ. 27", posts: [["คลิปยาว", "วันทำงานจริง ภาค 2", 0]] },
+      { day: "อ. 28", posts: [["Shorts", "ตัดจากคลิปวันจันทร์", 0]] },
+      { day: "พ. 29", posts: [["โพสต์ FB", "บทแรก ebook อ่านฟรี", 1]], pay: true },
+      { day: "พฤ. 30", posts: [["Shorts", "1 ทริคตั้งราคา", 0]], pay: true },
+      { day: "ศ. 31", posts: [["Live", "ถามตอบ + โปรเงินเดือนออก", 1]], pay: true },
+      { day: "ส. 1", posts: [["LINE", "ส่งโปรถึงคนลงชื่อรอ", 1]], pay: true },
+      { day: "อา. 2", posts: [] }
+    ],
+    experiments: [
+      { name: "Hook เปิดคลิป: คำถาม vs ตัวเลข", status: "จบแล้ว", a: ["\"ทำงานคนเดียวเหนื่อยไหม?\"", "ดูจนจบ 31%"], b: ["\"ฉันทำงานวันละ 4 ชม. ได้เงินเท่าเดิม\"", "ดูจนจบ 48%"], win: "b", learn: "ผู้ชมของนุ้ยชอบ hook ที่มีตัวเลขจริง มากกว่าคำถามกว้าง ๆ" },
+      { name: "ราคาเซ็ตคู่: ฿299 vs ฿349 + แถมเทมเพลต", status: "กำลังทดลอง · วันที่ 4/14", a: ["฿299", "ขายได้ 7"], b: ["฿349 + เทมเพลต", "ขายได้ 6"], win: "", learn: "ยังเร็วไปที่จะสรุป รออีก 10 วัน" }
+    ],
     hooks: [
-      ["ถ้าคุณทำงานคนเดียวแล้วรู้สึกว่าไม่มีวันหยุด คลิปนี้สำหรับคุณ", "ใช้กับคลิปจัดเวลา"],
-      ["นี่คือความผิดพลาดที่ทำให้ฉันขาดทุนเดือนแรก", "ใช้กับคลิปตั้งราคา"],
-      ["3 อย่างที่อยากรู้ก่อนลาออกมาทำเอง", "ใช้กับคลิปเริ่มต้น"],
-      ["วันนี้ทำงานแค่ 4 ชั่วโมง แต่ได้งานมากกว่าเดิม ทำยังไง?", "ใช้กับคลิปวันทำงานจริง"]
+      { text: "ฉันทำงานวันละ 4 ชั่วโมง แต่ได้เงินเท่าตอนทำงานประจำ", note: "ใช้กับคลิปวันทำงานจริง", money: 5890 },
+      { text: "นี่คือความผิดพลาดที่ทำให้ฉันขาดทุนเดือนแรก", note: "ใช้กับคลิปตั้งราคา", money: 4580 },
+      { text: "3 อย่างที่อยากรู้ก่อนลาออกมาทำเอง", note: "ใช้กับคลิปเริ่มต้น", money: 1722 },
+      { text: "แอปฟรี 5 ตัวที่ช่วยให้ฉันเลิกทำงานถึงตี 2", note: "ใช้กับคลิปเครื่องมือ", money: 1640 }
     ]
   };
   // ===== จบส่วน DATA =====
 
-  const baht = (n) => "฿" + n.toLocaleString("th-TH");
   const $ = (id) => document.getElementById(id);
+  const baht = (n) => "฿" + Math.round(n).toLocaleString("th-TH");
+  const num = (n) => n.toLocaleString("th-TH");
+
+  function toast(msg) {
+    const t = $("toast");
+    t.textContent = msg; t.classList.add("show");
+    clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.remove("show"), 2200);
+  }
+  async function copy(text, msg) {
+    try { await navigator.clipboard.writeText(text); toast(msg || "คัดลอกแล้ว ✓"); }
+    catch { toast("คัดลอกไม่ได้ ลองใหม่อีกครั้ง"); }
+  }
+
+  // คำสั่งสำเร็จรูปสำหรับวางใน Claude พร้อมข้อมูลจริงจากหน้านี้
+  const PROMPTS = {
+    brief: () => `ช่วยสรุปธุรกิจของฉันวันนี้แบบสั้น ๆ และบอก 3 สิ่งที่ควรทำ\nเป้าเดือนนี้ ${baht(DATA.goal.month)} ทำได้แล้ว ${baht(DATA.goal.earned)} (วันที่ ${DATA.goal.dayOfMonth}/${DATA.goal.daysInMonth})\nเส้นทางเงิน: ${DATA.funnel.map((f) => f.name + " " + num(f.value)).join(" → ")}\nคลิป: ${DATA.clips.map((c) => `${c.title} (${num(c.views)} วิว, ${baht(c.revenue)})`).join("; ")}`,
+    pin: () => `เขียนคอมเมนต์ปักหมุดใต้คลิป YouTube "ลาออกมาทำเอง ดีจริงไหม" เพื่อชวนคนกดลิงก์ไปซื้อ ebook "เริ่มต้นทำงานคนเดียว" ราคา 199 บาท ขอ 3 แบบ สั้น เป็นกันเอง ไม่ขายแรง`,
+    reply: () => `ช่วยร่างข้อความ LINE ตอบลูกค้าที่ถามเรื่อง "ตั้งราคา" โดยแนบบทแรกของ ebook ให้อ่านฟรี แล้วชวนซื้อเล่มเต็มอย่างนุ่มนวล น้ำเสียงเป็นกันเองแบบพี่สาว`,
+    script: () => `ช่วยเขียนสคริปต์คลิป YouTube "วันทำงานจริงของคนทำงานคนเดียว ภาค 2" ยาว 8-10 นาที เปิดด้วย hook ที่มีตัวเลขจริง (ผู้ชมของฉันชอบแบบนี้) และปิดด้วยการชวนซื้อ ebook ช่วงเงินเดือนออก`,
+    hook: (h) => `นี่คือ hook ที่ทำเงินได้ ${baht(h.money)}: "${h.text}"\nช่วยคิด hook แบบเดียวกันอีก 5 แบบ สำหรับคลิปเรื่องอื่นของคนทำงานคนเดียว ใช้ตัวเลขจริงและพูดถึงผลลัพธ์`,
+    ebook: (d) => `ลูกค้าถามเรื่อง "${d.topic}" ${d.count} ครั้งใน 30 วัน เช่น ${d.quotes.map((q) => `"${q}"`).join(", ")}\nช่วยวางโครง ${d.idea} แบ่งเป็นบท พร้อมชื่อเล่มที่น่าซื้อ 3 แบบ`
+  };
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-prompt]");
+    if (b) copy(PROMPTS[b.dataset.prompt](), "คัดลอกคำสั่งแล้ว ✓ ไปวางใน Claude ได้เลย");
+  });
+
+  // ---------- วันนี้ ----------
+  const hour = new Date().getHours();
+  $("greet").textContent = (hour < 12 ? "อรุณสวัสดิ์ค่ะ นุ้ย ☀" : hour < 17 ? "สวัสดีตอนบ่ายค่ะ นุ้ย 🌤" : "สวัสดีตอนเย็นค่ะ นุ้ย 🌙");
   $("updated").textContent = DATA.updated;
 
-  // การ์ดตัวเลขพร้อมกราฟเส้นเล็ก ชี้ที่กราฟเพื่อดูค่าแต่ละช่วง
+  const g = DATA.goal;
+  const pct = g.earned / g.month * 100, pace = g.dayOfMonth / g.daysInMonth * 100;
+  const forecast = g.earned / g.dayOfMonth * g.daysInMonth;
+  $("goal").innerHTML = `
+    <small>เป้าเดือนนี้ ${baht(g.month)}</small><br><b>${baht(g.earned)}</b> <small>(${Math.round(pct)}%)</small>
+    <div class="bar-bg" title="เส้นสีขาว = ควรถึงตรงนี้แล้วตามจำนวนวัน"><div class="bar-fill" style="width:${Math.min(pct, 100)}%"></div><div class="bar-pace" style="left:${pace}%"></div></div>
+    <small>คาดว่าสิ้นเดือนจะได้ ~${baht(forecast)} · ${forecast >= g.month ? "ถึงเป้า 🎉" : "ขาดอีก " + baht(g.month - forecast)}</small>`;
+
   DATA.kpis.forEach((k) => {
     const card = document.createElement("div");
     card.className = "kpi";
-    const w = 160, h = 40, min = Math.min(...k.trend), max = Math.max(...k.trend);
+    const w = 160, h = 34, min = Math.min(...k.trend), max = Math.max(...k.trend);
     const pts = k.trend.map((v, i) => [i * w / (k.trend.length - 1), h - 4 - (v - min) / (max - min || 1) * (h - 8)]);
     const color = k.delta >= 0 ? "var(--good)" : "var(--bad)";
     card.innerHTML = `
-      <div class="label">${k.label}</div>
-      <div class="value">${k.value}</div>
+      <div class="label">${k.label}</div><div class="value">${k.value}</div>
       <div class="row">
-        <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" role="img" aria-label="แนวโน้ม ${k.label}">
+        <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" role="img" aria-label="แนวโน้ม ${k.label} 7 สัปดาห์">
           <polyline points="${pts.map((p) => p.join(",")).join(" ")}" fill="none" stroke="${color}" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>
           <circle r="4" fill="${color}" stroke="#fff" stroke-width="2" style="display:none" vector-effect="non-scaling-stroke"/>
         </svg>
         <span class="delta ${k.delta >= 0 ? "up" : "down"}">${k.delta >= 0 ? "▲ +" : "▼ "}${k.delta}%</span>
-      </div>
-      <div class="tip"></div>`;
+      </div><div class="tip"></div>`;
     const svg = card.querySelector("svg"), dot = card.querySelector("circle"), tip = card.querySelector(".tip");
     svg.addEventListener("mousemove", (e) => {
       const r = svg.getBoundingClientRect();
-      const i = Math.round((e.clientX - r.left) / r.width * (k.trend.length - 1));
+      const i = Math.max(0, Math.min(k.trend.length - 1, Math.round((e.clientX - r.left) / r.width * (k.trend.length - 1))));
       const [x, y] = pts[i];
       dot.setAttribute("cx", x); dot.setAttribute("cy", y); dot.style.display = "";
-      tip.textContent = `สัปดาห์ที่ ${i + 1}: ${k.unit === "฿" ? baht(k.trend[i]) : k.trend[i].toLocaleString("th-TH") + " " + k.unit}`;
+      tip.textContent = `สัปดาห์ที่ ${i + 1}: ${k.unit === "฿" ? baht(k.trend[i]) : num(k.trend[i]) + " " + k.unit}`;
       const cr = card.getBoundingClientRect();
       tip.style.left = (r.left - cr.left + x / w * r.width) + "px";
       tip.style.top = (r.top - cr.top + y / h * r.height) + "px";
@@ -300,52 +528,100 @@
     $("kpis").appendChild(card);
   });
 
-  // ตารางยอดขาย
-  const books = DATA.books.map((b) => ({ ...b, revenue: b.price * b.sold })).sort((a, b) => b.revenue - a.revenue);
-  const total = books.reduce((s, b) => s + b.revenue, 0);
-  const totalSold = books.reduce((s, b) => s + b.sold, 0);
-  $("salesTable").innerHTML =
-    `<tr><th>ebook</th><th>ราคา</th><th>ขายได้</th><th>รายได้</th><th>สัดส่วน</th></tr>` +
-    books.map((b) => `<tr><td>${b.name}</td><td class="num">${baht(b.price)}</td><td class="num">${b.sold}</td><td class="num">${baht(b.revenue)}</td><td class="num">${Math.round(b.revenue / total * 100)}%</td></tr>`).join("") +
-    `<tr class="total"><td>รวมทั้งหมด</td><td></td><td class="num">${totalSold}</td><td class="num">${baht(total)}</td><td class="num">100%</td></tr>`;
-
-  const maxRev = books[0].revenue;
-  $("salesBars").innerHTML =
-    `<tr><th>ebook</th><th style="text-align:left">รายได้</th></tr>` +
-    books.map((b) => `<tr title="${b.name}: ${baht(b.revenue)} (${b.sold} เล่ม)"><td>${b.name}</td><td style="text-align:left"><span class="bar" style="width:${Math.max(4, b.revenue / maxRev * 240)}px"></span><span class="num mono">${baht(b.revenue)}</span></td></tr>`).join("");
-
-  // ตารางคลิป
-  $("videoTable").innerHTML =
-    `<tr><th>คลิป</th><th>ยอดวิว</th><th>คนกดลิงก์</th><th>อัตรากดลิงก์</th><th>ขายได้</th></tr>` +
-    DATA.videos.map((v) => {
-      const rate = v.clicks / v.views * 100;
-      return `<tr><td>${v.title}</td><td class="num">${v.views.toLocaleString("th-TH")}</td><td class="num">${v.clicks}</td><td class="num ${rate >= 2 ? "up" : rate < 1 ? "down" : ""}">${rate.toFixed(1)}%</td><td class="num">${v.sales} เล่ม</td></tr>`;
-    }).join("");
-
-  // แผน
-  $("plan").innerHTML = DATA.plan.map(([t, d]) => `<li><b>${t}</b><p>${d}</p></li>`).join("");
-
-  // ปฏิทิน
-  $("week").innerHTML = Object.entries(DATA.week).map(([day, posts]) =>
-    `<div class="day"><h3>${day}</h3>${posts.length ? posts.map(([type, t]) => `<div class="post"><small>${type}</small>${t}</div>`).join("") : `<small style="color:var(--faint)">วันพัก 🌿</small>`}</div>`
-  ).join("");
-
-  // คลัง Hook
-  $("hookList").innerHTML = DATA.hooks.map(([h, note], i) =>
-    `<div class="hook"><div>${h}<small>${note}</small></div><button class="copy" data-i="${i}">คัดลอก</button></div>`
-  ).join("");
-  $("hookList").addEventListener("click", async (e) => {
-    const b = e.target.closest(".copy");
-    if (!b) return;
-    try { await navigator.clipboard.writeText(DATA.hooks[b.dataset.i][0]); b.textContent = "คัดลอกแล้ว ✓"; }
-    catch { b.textContent = "คัดลอกไม่ได้"; }
-    setTimeout(() => (b.textContent = "คัดลอก"), 1500);
+  $("todo").innerHTML = DATA.todo.map((t, i) => `
+    <label class="task" id="task${i}">
+      <input type="checkbox" data-task="${i}" aria-label="ทำเสร็จแล้ว">
+      <div><div class="t-title">${t.title}</div><div class="t-why">${t.why}</div><div class="t-meta">⏱ ${t.time}</div></div>
+      <button class="btn small" data-prompt="${t.prompt}" type="button">✦ ให้ Claude ร่าง</button>
+    </label>`).join("");
+  $("todo").addEventListener("change", (e) => {
+    const i = e.target.dataset.task;
+    $("task" + i).classList.toggle("done", e.target.checked);
+    if ([...document.querySelectorAll("[data-task]")].every((c) => c.checked)) toast("ครบ 3 อย่างแล้ว เก่งมากค่ะ 🎉 พักได้เลย");
   });
 
-  // สลับหน้า
+  const en = DATA.energy, maxH = Math.max(...en.hours, en.cap) + 1;
+  $("cap").textContent = en.cap;
+  $("energy").innerHTML = en.hours.map((h, i) =>
+    `<div class="${h > en.cap ? "over" : ""} ${i === en.today ? "today" : ""}" style="height:${h / maxH * 100}%" title="${en.days[i]} ${h} ชม."></div>`).join("");
+  $("energyDays").innerHTML = en.days.map((d, i) => `<span>${i === en.today ? "<b>" + d + "</b>" : d}</span>`).join("");
+  const overDays = en.hours.map((h, i) => [h, en.days[i]]).filter(([h]) => h > en.cap);
+  $("energyChip").textContent = overDays.length ? `เกินเพดาน ${overDays.length} วัน` : "สมดุลดี";
+  $("energyTip").innerHTML = overDays.length
+    ? `✦ <b>${overDays.map((d) => d[1]).join(", ")}</b> งานแน่นเกินเพดาน · ลองย้ายงานไปวันอังคารที่ยังว่าง หรือเลื่อน Shorts ไปสัปดาห์หน้า ทำงานคนเดียวต้องไม่หมดไฟก่อน`
+    : "✦ สัปดาห์นี้งานกำลังดี ไม่เกินเพดาน";
+
+  // ---------- เส้นทางเงิน ----------
+  const F = DATA.funnel;
+  const rates = F.slice(1).map((f, i) => f.value / F[i].value);
+  // จุดรั่ว = ขั้นที่ไปต่อได้น้อยที่สุด ไม่นับขั้นแรก (วิว→คลิก ต่ำเป็นปกติ)
+  let leakIdx = 1;
+  rates.forEach((r, i) => { if (i > 0 && r < rates[leakIdx]) leakIdx = i; });
+  const logMax = Math.log10(F[0].value);
+  $("funnel").innerHTML = F.map((f, i) => {
+    const w = Math.max(8, Math.log10(f.value) / logMax * 100);
+    const rate = i < F.length - 1 ? `<div class="f-rate ${i === leakIdx ? "leak" : ""}">→ ${(rates[i] * 100).toFixed(1)}%</div>` : `<div class="f-rate"><b>${baht(DATA.goal.earned)}</b></div>`;
+    return `<div class="f-step"><div class="f-name">${f.name}</div><div><div class="f-bar" style="width:${w}%">${num(f.value)}</div></div>${rate}</div>`;
+  }).join("") + `<div class="sub" style="margin: 6px 0 0 142px;">ความยาวแถบใช้สเกลลอการิทึม เพื่อให้เห็นทุกขั้นในจอเดียว</div>`;
+  // ถ้าจุดรั่วดีขึ้นถึงเป้า คนที่ผ่านเพิ่มจะซื้อต่อในอัตราเดียวกับขั้นที่เหลือ
+  const L = F[leakIdx], next = F[leakIdx + 1], last = F[F.length - 1];
+  const extraBooks = Math.max(0, Math.round((L.value * L.target - next.value) * last.value / next.value));
+  const avgPrice = DATA.goal.earned / last.value;
+  $("leak").innerHTML = `<b>${L.name} → ${next.name}</b> ไปต่อแค่ ${(rates[leakIdx] * 100).toFixed(0)}% · ${L.fix}<br>ถ้าดีขึ้นถึง ${Math.round(L.target * 100)}% คาดว่าจะขายเพิ่มได้ ~${extraBooks} เล่ม (~${baht(extraBooks * avgPrice)}) ต่อเดือน`;
+
+  const clips = DATA.clips.map((c) => ({ ...c, per1k: c.revenue / c.views * 1000 })).sort((a, b) => b.per1k - a.per1k);
+  const maxPer = clips[0].per1k;
+  $("clipTable").innerHTML = `<tr><th>คลิป</th><th>ยอดวิว</th><th>ขายได้</th><th>รายได้</th><th style="text-align:left">เงินต่อ 1,000 วิว</th></tr>` +
+    clips.map((c) => `<tr><td>${c.title}</td><td class="num">${num(c.views)}</td><td class="num">${c.sales}</td><td class="num">${baht(c.revenue)}</td><td style="text-align:left"><span class="inbar" style="width:${c.per1k / maxPer * 120}px"></span><span class="num mono">${baht(c.per1k)}</span></td></tr>`).join("");
+
+  // ---------- เรดาร์ลูกค้า ----------
+  $("demandList").innerHTML = DATA.demand.map((d, i) => `
+    <div class="d-item">
+      <div><h3>${d.topic}</h3><div class="t-why">→ ${d.idea}</div></div>
+      <div class="d-count">${d.count}<small>ครั้งที่ถาม</small></div>
+      <div class="d-quotes">${d.quotes.map((q) => `<span>"${q}"</span>`).join("")}</div>
+      <div style="grid-column: 1 / -1;"><button class="btn small" data-demand="${i}">✦ ให้ Claude วางโครงเรื่องนี้</button></div>
+    </div>`).join("");
+  $("demandList").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-demand]");
+    if (b) copy(PROMPTS.ebook(DATA.demand[b.dataset.demand]), "คัดลอกคำสั่งแล้ว ✓ ไปวางใน Claude ได้เลย");
+  });
+  const c = DATA.course, cPct = c.waitlist / c.target;
+  $("courseChip").textContent = `${Math.round(cPct * 100)}% ของเป้า`;
+  $("course").innerHTML = `<b>${c.name}</b>
+    <div class="meter" role="img" aria-label="ลงชื่อรอ ${c.waitlist} จากเป้า ${c.target} คน">${Array.from({ length: 10 }, (_, i) => `<i class="${i < Math.round(cPct * 10) ? "on" : ""}"></i>`).join("")}</div>
+    <div class="t-why">ลงชื่อรอแล้ว <b>${c.waitlist}</b> / ${c.target} คน · อีก ${c.target - c.waitlist} คนจะเริ่มอัดคอร์ส</div>`;
+
+  // ---------- ปฏิทิน ----------
+  $("week").innerHTML = DATA.week.map((d) => `
+    <div class="day ${d.pay ? "pay" : ""}"><h3>${d.day}${d.pay ? "<small>💰 เงินเดือนออก</small>" : ""}</h3>
+    ${d.posts.length ? d.posts.map(([type, t, sell]) => `<div class="post ${sell ? "sell" : ""}"><small>${type}</small>${t}</div>`).join("") : `<small style="color:var(--faint)">วันพัก 🌿</small>`}</div>`).join("");
+
+  // ---------- ห้องทดลอง ----------
+  $("expList").innerHTML = DATA.experiments.map((x) => `
+    <div class="x-item">
+      <div class="x-head"><b>${x.name}</b><span class="chip ${x.win ? "good" : "warn"}">${x.status}</span></div>
+      <div class="ab">
+        <div class="${x.win === "a" ? "win" : ""}"><small>แบบ A ${x.win === "a" ? "· ชนะ ✓" : ""}</small>${x.a[0]}<small>${x.a[1]}</small></div>
+        <div class="${x.win === "b" ? "win" : ""}"><small>แบบ B ${x.win === "b" ? "· ชนะ ✓" : ""}</small>${x.b[0]}<small>${x.b[1]}</small></div>
+      </div>
+      <div class="learn"><b>สิ่งที่เรียนรู้:</b> ${x.learn}</div>
+    </div>`).join("");
+
+  // ---------- Hook ----------
+  const hooks = [...DATA.hooks].sort((a, b) => b.money - a.money);
+  $("hookList").innerHTML = hooks.map((h, i) => `
+    <div class="hook"><div>${h.text}<small>${h.note} · <span class="score">ทำเงิน ${baht(h.money)}</span></small></div>
+    <div class="acts"><button class="btn small" data-copy="${i}">คัดลอก</button><button class="btn small" data-hook="${i}">✦ ทำแบบนี้อีก 5 อัน</button></div></div>`).join("");
+  $("hookList").addEventListener("click", (e) => {
+    const cp = e.target.closest("[data-copy]"), hk = e.target.closest("[data-hook]");
+    if (cp) copy(hooks[cp.dataset.copy].text);
+    if (hk) copy(PROMPTS.hook(hooks[hk.dataset.hook]), "คัดลอกคำสั่งแล้ว ✓ ไปวางใน Claude ได้เลย");
+  });
+
+  // ---------- สลับหน้า ----------
   const side = $("side");
-  document.querySelectorAll("[data-view]").forEach((btn) => btn.addEventListener("click", () => {
-    const v = btn.dataset.view;
+  function show(v) {
     document.querySelectorAll(".view").forEach((s) => s.classList.toggle("active", s.id === v));
     document.querySelectorAll(".nav").forEach((n) => {
       if (n.dataset.view === v) n.setAttribute("aria-current", "page");
@@ -353,7 +629,8 @@
     });
     side.classList.remove("open");
     window.scrollTo(0, 0);
-  }));
+  }
+  document.querySelectorAll("[data-view]").forEach((el) => el.addEventListener("click", () => show(el.dataset.view)));
   $("menuBtn").addEventListener("click", () => side.classList.toggle("open"));
 </script>
 </body>
