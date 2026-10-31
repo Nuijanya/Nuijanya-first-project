@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="อีบุ๊ก Claude Design 101 ฉบับเต็ม ทำปกคลิป โพสต์ขายของ สไลด์ ให้เป็นแบรนด์ของคุณด้วย Claude โดยนุ้ย 299 บาท">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Claude Design 101 ฉบับเต็ม</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* หน้าขายเล่มเดียว: ปก+ราคาด้านบน → ข้างในมีอะไร → ตัวอย่างหน้า → ซื้อ 3 ขั้น → คำถาม · ชำระผ่านพร้อมเพย์ + ส่งสลิปทาง LINE */
+  :root {
+    --bg: #F6F1E7; --surface: #FFFFFF; --ink: #24302B; --muted: #5E6B65; --line: #E2DDD1;
+    --green: #2F5E50; --green-d: #24493E; --on-green: #FFFFFF; --on-green-muted: #CFE0D8;
+    --orange: #B9562F; --orange-d: #9C4524; --peach: #F6E3D6; --sage: #EEF3EF; --line-green: #06C755;
+    --font: "IBM Plex Sans Thai", "Leelawadee UI", Tahoma, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #18201D; --surface: #212B27; --ink: #EEF1EE; --muted: #B3C0B9; --line: #34423C;
+    --green: #2F5E50; --green-d: #A9CFC0; --on-green: #FFFFFF; --on-green-muted: #CFE0D8;
+    --orange: #D9774F; --orange-d: #E89A79; --peach: #3A2A22; --sage: #1F2C27; --line-green: #06C755;
+    color-scheme: dark;
+  } }
+  :root[data-theme="dark"] {
+    --bg: #18201D; --surface: #212B27; --ink: #EEF1EE; --muted: #B3C0B9; --line: #34423C;
+    --green: #2F5E50; --green-d: #A9CFC0; --on-green: #FFFFFF; --on-green-muted: #CFE0D8;
+    --orange: #D9774F; --orange-d: #E89A79; --peach: #3A2A22; --sage: #1F2C27; --line-green: #06C755;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 17px; line-height: 1.7; }
+  h1, h2, h3 { line-height: 1.3; margin: 0; text-wrap: balance; color: var(--green-d); }
+  p { margin: 0; }
+  a { color: var(--orange-d); }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  section { padding-block: 56px; }
+  section.tint { background: var(--sage); }
+  .kicker { color: var(--orange-d); font-weight: 600; font-size: 14px; letter-spacing: .03em; margin-bottom: 8px; }
+  .lead { color: var(--muted); max-width: 62ch; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--orange); color: #fff; border: 2px solid var(--orange);
+    padding: 13px 26px; border-radius: 999px; font: 600 17px var(--font); cursor: pointer; text-decoration: none; transition: background .15s, transform .15s; }
+  .btn:hover { background: var(--orange-d); border-color: var(--orange-d); color: #fff; }
+  .btn:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--green-d); outline-offset: 3px; }
+  .btn.ghost { background: transparent; color: var(--orange-d); }
+  .btn.ghost:hover { background: var(--peach); color: var(--orange-d); }
+  .btn.line { background: var(--line-green); border-color: var(--line-green); color: #fff; }
+  .btn.full { width: 100%; }
+  @media (prefers-reduced-motion: no-preference) { .btn:hover { transform: translateY(-1px); } }
+
+  /* hero */
+  .hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 48px; align-items: center; padding-block: 40px 56px; }
+  .badge { display: inline-block; background: var(--orange); color: #fff; font-weight: 600; font-size: 14px; border-radius: 999px; padding: 3px 14px; margin-bottom: 14px; }
+  .hero h1 { font-size: clamp(32px, 5.2vw, 50px); margin-bottom: 14px; }
+  .hero h1 span { color: var(--orange); }
+  .hero .lead { font-size: 19px; margin-bottom: 22px; }
+  .price-row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+  .price { font-size: 40px; font-weight: 700; color: var(--orange-d); font-variant-numeric: tabular-nums; }
+  .was { color: var(--muted); text-decoration: line-through; font-size: 20px; }
+  .save { background: var(--peach); color: var(--orange-d); font-weight: 600; font-size: 14px; border-radius: 999px; padding: 2px 12px; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 18px; color: var(--muted); font-size: 15px; }
+  .facts b { color: var(--ink); }
+  .cover { width: 100%; max-width: 380px; justify-self: center; border-radius: 10px; box-shadow: 0 24px 48px rgba(20, 40, 33, .22); }
+
+  /* tools strip */
+  .duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 28px; }
+  .duo > div { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; min-width: 0; }
+  .duo h3 { font-size: 18px; margin-bottom: 4px; }
+  .duo p { color: var(--muted); font-size: 15px; }
+  .duo .tag { display: inline-block; font-size: 13px; font-weight: 600; border-radius: 999px; padding: 1px 10px; margin-bottom: 8px; background: var(--sage); color: var(--green-d); }
+  .duo .tag.o { background: var(--peach); color: var(--orange-d); }
+
+  /* chapters */
+  .chapters { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0 32px; counter-reset: ch; }
+  .chapters li { display: grid; grid-template-columns: 36px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px dashed var(--line); counter-increment: ch; min-width: 0; }
+  .chapters li::before { content: counter(ch); width: 32px; height: 32px; border-radius: 50%; background: var(--green); color: var(--on-green); display: grid; place-items: center; font-weight: 700; font-size: 15px; }
+  .chapters li.new::before { background: var(--orange); }
+  .chapters b { display: block; color: var(--ink); }
+  .chapters small { color: var(--muted); font-size: 15px; }
+  .chapters em { font-style: normal; font-size: 12px; font-weight: 600; color: var(--orange-d); background: var(--peach); border-radius: 999px; padding: 0 8px; margin-left: 6px; vertical-align: 2px; }
+  .extras { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .extras span { background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 4px 14px; font-size: 15px; }
+
+  /* samples */
+  .samples { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 28px; }
+  .samples figure { margin: 0; }
+  .samples img { width: 100%; border-radius: 8px; border: 1px solid var(--line); box-shadow: 0 10px 24px rgba(20, 40, 33, .1); display: block; }
+  .samples figcaption { color: var(--muted); font-size: 14px; margin-top: 8px; text-align: center; }
+
+  /* about */
+  .about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+  .quote { font-size: 21px; font-weight: 600; color: var(--green-d); line-height: 1.5; }
+  .about .lead { margin-top: 12px; }
+
+  /* steps */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 28px; }
+  .step { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; min-width: 0; }
+  .step .n { color: var(--orange-d); font-weight: 700; font-size: 14px; }
+  .step b { display: block; font-size: 18px; color: var(--ink); margin: 2px 0 4px; }
+  .step p { color: var(--muted); font-size: 15px; }
+
+  /* faq */
+  .faq { max-width: 760px; margin-top: 24px; display: grid; gap: 10px; }
+  details { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; }
+  summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--orange); font-size: 22px; line-height: 1; }
+  details[open] summary::after { content: "–"; }
+  details p { color: var(--muted); margin-top: 10px; }
+
+  .final { background: var(--green); color: var(--on-green); border-radius: 24px; padding: 40px 24px; text-align: center; display: grid; gap: 14px; justify-items: center; }
+  .final h2 { color: var(--on-green); font-size: clamp(24px, 4vw, 32px); }
+  .final p { color: var(--on-green-muted); }
+  footer { padding-block: 32px 110px; text-align: center; color: var(--muted); font-size: 14px; }
+
+  /* sticky buy (phone) */
+  .sticky { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--surface); border-top: 1px solid var(--line);
+    padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+    align-items: center; gap: 12px; box-shadow: 0 -8px 24px rgba(20, 40, 33, .1); }
+  .sticky span { flex: 1; font-size: 14px; color: var(--muted); line-height: 1.3; }
+  .sticky b { color: var(--ink); font-size: 18px; }
+
+  /* payment dialog */
+  dialog { border: 0; border-radius: 22px; padding: 0; width: min(440px, calc(100% - 32px)); max-height: calc(100% - 32px); background: var(--surface); color: var(--ink); box-shadow: 0 30px 60px rgba(0, 0, 0, .3); }
+  dialog::backdrop { background: rgba(20, 30, 26, .6); }
+  .modal { padding: 24px; display: grid; gap: 14px; }
+  .modal-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .modal-head h2 { font-size: 20px; }
+  .close { background: var(--sage); color: var(--ink); border: 0; width: 38px; height: 38px; border-radius: 50%; font-size: 20px; cursor: pointer; flex-shrink: 0; }
+  .order { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; background: var(--bg); border-radius: 14px; padding: 12px 16px; font-weight: 600; }
+  .order strong { color: var(--orange-d); font-size: 24px; font-variant-numeric: tabular-nums; }
+  .qr { display: block; width: 220px; max-width: 100%; aspect-ratio: 1; margin: 0 auto; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 8px; }
+  .payee { text-align: center; font-size: 14px; color: var(--muted); }
+  .payee b { color: var(--ink); }
+  .amount-note { background: var(--peach); color: var(--ink); border-radius: 12px; padding: 8px 12px; font-size: 15px; text-align: center; }
+  .modal ol { margin: 0; padding-left: 1.2em; font-size: 15px; }
+  .modal ol li { margin-bottom: 4px; }
+  .line-id { text-align: center; font-size: 14px; color: var(--muted); }
+  .copybox { width: 100%; font: 14px var(--font); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; background: var(--bg); color: var(--ink); resize: none; }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; gap: 24px; padding-top: 24px; }
+    .cover { grid-row: 1; max-width: 260px; }
+    .about { grid-template-columns: 1fr; }
+    .samples { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .sticky { display: flex; }
+    .sticky.hide { display: none; }
+    section { padding-block: 44px; }
+  }
+</style>
+<!-- Google Analytics: property เว็บอีบุ๊ก nuijanya.github.io -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VR8839RGS4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-VR8839RGS4");
+</script>
+</head>
+<body>
+
+
+<main>
+  <div class="wrap hero">
+    <div>
+      <span class="badge">อีบุ๊ก PDF ฉบับเต็ม · อัปเดต 2026</span>
+      <h1>Claude Design 101<br>ออกแบบเองได้ <span>เป็นแบรนด์คุณ</span></h1>
+      <p class="lead">ปกคลิป โพสต์ขายของ สไลด์ แลนดิ้งเพจ ทำเองด้วยการคุยกับ Claude ไม่ต้องจ้างกราฟิก ไม่ต้องเก่งดีไซน์ ทำตามทีละขั้นเหมือนมีนุ้ยนั่งสอนข้างๆ</p>
+      <div class="price-row">
+        <span class="price">฿299</span><span class="was">฿490</span><span class="save">ราคาเปิดตัว</span>
+      </div>
+      <div class="cta-row">
+        <button class="btn" type="button" data-buy>ซื้อเลย ฿299</button>
+        <a class="btn ghost" href="#inside">ดูข้างในเล่ม</a>
+      </div>
+      <div class="facts">
+        <span><b>85</b> หน้า</span><span><b>9</b> บท</span><span><b>59</b> คำสั่งก๊อปไปใช้</span><span><b>+8</b> โบนัส</span><span>จ่ายพร้อมเพย์ · รับไฟล์ทาง LINE</span>
+      </div>
+    </div>
+    <img class="cover" src="cover.jpg" alt="ปกอีบุ๊ก Claude Design 101 ฉบับเต็ม" width="380" height="537">
+  </div>
+
+  <section class="tint">
+    <div class="wrap">
+      <div class="kicker">เล่มนี้เหมาะกับใคร</div>
+      <h2>คนทำธุรกิจคนเดียว ที่อยากได้งานสวยแบบมืออาชีพ โดยไม่ต้องจ้างใคร</h2>
+      <div class="duo">
+        <div><span class="tag">ครีเอเตอร์</span><h3>ปกคลิป ภาพสรุป</h3><p>ปกที่คนอยากคลิก ภาพท้ายคลิป โพสต์โปรโมต ออกมาเป็นสไตล์เดียวกันทุกชิ้น</p></div>
+        <div><span class="tag o">ขายของ / บริการ</span><h3>โพสต์ขาย แลนดิ้งเพจ</h3><p>โพสต์ขายของ เมนู ใบเสนอราคา หน้าขายสินค้า ใช้ได้ทั้งร้านค้า โค้ช ฟรีแลนซ์ อสังหาฯ</p></div>
+        <div><span class="tag">สอน / นำเสนอ</span><h3>สไลด์ Carousel</h3><p>สไลด์สอน สไลด์เสนองาน โพสต์หลายภาพให้ปัด ตัวหนังสือไทยสวย ไม่เพี้ยน</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="inside">
+    <div class="wrap">
+      <div class="kicker">ข้างในเล่ม</div>
+      <h2>9 บท จากมือใหม่ สู่คนที่ออกแบบงานเองได้</h2>
+      <ol class="chapters">
+        <li><div><b>Claude Design คืออะไร</b><small>ทำอะไรได้ อยู่ตรงไหน ใครใช้ได้บ้าง</small></div></li>
+        <li><div><b>รู้จักหน้า Design</b><small>ทุกปุ่มบนหน้าจอ อยากได้งานแบบไหน กดปุ่มไหน</small></div></li>
+        <li><div><b>Design System ชุดแบรนด์ของคุณ</b><small>ทำครั้งเดียว ทุกงานออกมาเป็นแบรนด์คุณ · เลือกสีและฟอนต์แบบนักออกแบบ</small></div></li>
+        <li><div><b>สั่งงานแบบมือโปร</b><small>สูตรเขียนคำสั่ง 4 ข้อ แนบไฟล์ โลโก้ Brand Soul + เทคนิคลับ 5 ข้อ</small></div></li>
+        <li><div><b>หลักออกแบบที่มืออาชีพใช้</b><small>หลัก 7 ข้อ ปกคลิป โพสต์ขาย สไลด์ แลนดิ้งเพจ · แก้งาน ส่งออก แชร์</small></div></li>
+        <li class="new"><div><b>ภาษาไทยสวย + คลังคำสั่ง 22 แบบ <em>เด่น</em></b><small>แก้ตัวหนังสือไทยเพี้ยน คำสั่งพร้อมใช้ตามประเภทงาน</small></div></li>
+        <li><div><b>Workshop ชุดแบรนด์ใน 1 ชั่วโมง</b><small>ได้งานจริง 3 ชิ้นในเวลาเดียว</small></div></li>
+        <li><div><b>ปัญหาที่เจอบ่อย + Checklist</b><small>ตรวจ 1 นาทีก่อนกดโพสต์ทุกครั้ง</small></div></li>
+        <li class="new"><div><b>ต่อยอดใน 9 อาชีพ <em>เด่น</em></b><small>โค้ช อสังหาฯ ร้านอาหาร ขายออนไลน์ ครู ฟรีแลนซ์ เวลเนส ครีเอเตอร์ บริการมืออาชีพ</small></div></li>
+      </ol>
+      <div class="extras">
+        <span>โบนัส: คำสั่งยกระดับงาน 10 แบบ</span><span>คำศัพท์นักออกแบบ</span><span>ตารางขนาดทุกแพลตฟอร์ม</span><span>Brand Kit กรอกได้</span><span>สูตรปกคลิปที่คนอยากคลิก</span><span>ปฏิทินฝึก 30 วัน</span><span>ไฟล์ .txt คำสั่ง 59 แบบ ก๊อปได้</span>
+      </div>
+      <div class="samples">
+        <figure><img src="sample-1.jpg" alt="ตัวอย่างหน้า: งานจริงที่นุ้ยทำเองด้วยคำสั่งในเล่ม" loading="lazy"><figcaption>งานจริงที่นุ้ยทำเอง</figcaption></figure>
+        <figure><img src="sample-2.jpg" alt="ตัวอย่างหน้า: สูตรเขียนคำสั่ง 4 ข้อ" loading="lazy"><figcaption>สูตรเขียนคำสั่ง 4 ข้อ</figcaption></figure>
+        <figure><img src="sample-3.jpg" alt="ตัวอย่างหน้า: คำสั่งทำปกคลิป YouTube" loading="lazy"><figcaption>คำสั่งทำปกคลิป YouTube</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="tint">
+    <div class="wrap about">
+      <div>
+        <div class="kicker">จากนุ้ย</div>
+        <p class="quote">"AI ช่วยออกแบบงาน แต่คุณคือคนออกแบบชีวิต นุ้ยทำงานคนเดียว ปกคลิป โพสต์ ภาพในช่องทั้งหมดนุ้ยทำเองด้วยวิธีในเล่มนี้ค่ะ"</p>
+      </div>
+      <div>
+        <p class="lead">ไม่ต้องเชื่อนุ้ย ดูงานจริงได้ที่ช่อง YouTube บริหารแบบโซโล่ (@Nuisolopreneur) ทุกปกและทุกภาพทำด้วยคำสั่งในเล่ม</p>
+        <p class="lead">ยังไม่แน่ใจ? <a href="https://forms.gle/tWXiTbzXnSnbGLtM9" target="_blank" rel="noopener" data-free>รับคู่มือ Claude ฉบับย่อฟรีก่อน</a> ลองทำตามแล้วค่อยมาต่อเล่มเต็มก็ได้ค่ะ</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="kicker">วิธีซื้อ</div>
+      <h2>ซื้อง่าย 3 ขั้น รับไฟล์ภายในวัน</h2>
+      <div class="steps">
+        <div class="step"><span class="n">ขั้นที่ 1</span><b>กดซื้อ แล้วสแกนจ่าย</b><p>สแกน QR พร้อมเพย์ด้วยแอปธนาคารไหนก็ได้ ยอด 299 บาทขึ้นให้เอง</p></div>
+        <div class="step"><span class="n">ขั้นที่ 2</span><b>ส่งสลิปทาง LINE</b><p>คัดลอกข้อความสั่งซื้อ เปิด LINE ของนุ้ย แล้วส่งพร้อมสลิป</p></div>
+        <div class="step"><span class="n">ขั้นที่ 3</span><b>รับไฟล์ PDF</b><p>นุ้ยส่งไฟล์ให้ทาง LINE ภายในวันเดียวกัน</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tint">
+    <div class="wrap">
+      <div class="kicker">คำถามที่พบบ่อย</div>
+      <h2>ก่อนซื้อ</h2>
+      <div class="faq">
+        <details><summary>ไม่เคยใช้ Claude เลย อ่านเข้าใจไหม</summary><p>เข้าใจค่ะ เล่มเริ่มจาก "ลองเลย 1 นาที" ให้ได้งานชิ้นแรกก่อนอ่านบทแรก แล้วค่อยพาไปทีละปุ่ม ทีละขั้น</p></details>
+        <details><summary>ต้องสมัคร Claude แบบเสียเงินไหม</summary><p>ฟีเจอร์ Design บางส่วนต้องใช้แผนเสียเงินของ Claude ในเล่มบอกไว้ชัดว่าอะไรทำได้ในแผนฟรี และมีวิธีใส่แบรนด์ในคำสั่งแทนสำหรับคนใช้แผนฟรีค่ะ</p></details>
+        <details><summary>ต่างจากคู่มือฟรียังไง</summary><p>คู่มือฟรีพาเริ่มใช้ Claude เบื้องต้น ส่วนฉบับเต็ม 85 หน้าสอนออกแบบให้เป็นแบรนด์ของคุณ หลักออกแบบมืออาชีพ ภาษาไทย คลังคำสั่ง 59 แบบ งาน 9 อาชีพ และโบนัส 8 ชิ้น</p></details>
+        <details><summary>ได้รับไฟล์ยังไง</summary><p>หลังส่งสลิปทาง LINE นุ้ยจะส่งไฟล์ PDF + ไฟล์คลังคำสั่ง .txt ให้ทาง LINE ภายในวันเดียวกันค่ะ</p></details>
+        <details><summary>อ่านบนมือถือได้ไหม</summary><p>ได้ค่ะ เป็นไฟล์ PDF เปิดได้ทั้งมือถือ แท็บเล็ต และคอมพิวเตอร์ คำสั่งก๊อปจากไฟล์ .txt ไปวางใช้ได้เลย</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="final">
+        <h2>งานชิ้นต่อไปของคุณ ออกมาเป็นแบรนด์คุณ</h2>
+        <p>ราคาเปิดตัว ฿299 จาก ฿490 · รับไฟล์ภายในวัน</p>
+        <button class="btn" type="button" data-buy>ซื้อเลย ฿299</button>
+        <p>อยากทำสติ๊กเกอร์ไลน์ขายด้วย? <a href="../sticker/" style="color:#fff">ดูอีบุ๊กสติ๊กเกอร์ ฿199</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">© 2026 นุ้ย · Janya Rattanaliam (จรรยา รัตนเหลี่ยม) · บริหารแบบโซโล่ · เล่มนี้ไม่ได้เกี่ยวข้องหรือได้รับการรับรองจาก LINE</footer>
+
+<div class="sticky" id="sticky">
+  <span>Claude Design 101 ฉบับเต็ม<br><b>฿299</b> <s>฿490</s></span>
+  <button class="btn" type="button" data-buy>ซื้อเลย</button>
+</div>
+
+<dialog id="pay" aria-labelledby="payTitle">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="payTitle">ชำระเงินผ่านพร้อมเพย์</h2>
+      <button class="close" id="closePay" type="button" aria-label="ปิด">×</button>
+    </div>
+    <div class="order"><span>Claude Design 101 ฉบับเต็ม</span><strong id="orderPrice">฿299</strong></div>
+    <img class="qr" src="qr-299.png" alt="QR พร้อมเพย์ของ MISS JANYA RATTANALIAM" width="220" height="220">
+    <p class="payee">พร้อมเพย์ · <b>MISS JANYA RATTANALIAM</b></p>
+    <p class="amount-note">สแกนแล้ว <b>ยอด 299 บาทขึ้นให้อัตโนมัติ</b></p>
+    <ol>
+      <li>สแกน QR ด้วยแอปธนาคาร ตรวจชื่อผู้รับและยอด แล้วโอน</li>
+      <li>กด "คัดลอกข้อความสั่งซื้อ" แล้วกดปุ่มเขียวเพื่อเปิด LINE</li>
+      <li>วางข้อความ แนบสลิป แล้วส่งให้นุ้ย</li>
+    </ol>
+    <button class="btn ghost full" id="copyOrder" type="button">คัดลอกข้อความสั่งซื้อ</button>
+    <textarea class="copybox" id="copyFallback" rows="2" readonly hidden aria-label="ข้อความสั่งซื้อ"></textarea>
+    <a class="btn line full" href="https://line.me/ti/p/9l4foE50B_" target="_blank" rel="noopener">เปิด LINE ส่งสลิปให้นุ้ย</a>
+    <p class="line-id">LINE ID: <b>janya.rattanaliam</b></p>
+  </div>
+</dialog>
+
+<script>
+  const PRICE = 299;
+  const ORDER_TEXT = `สวัสดีค่ะนุ้ย สั่งซื้อ ebook "Claude Design 101 ฉบับเต็ม" ราคา ${PRICE} บาท แนบสลิปค่ะ`;
+  const pay = document.getElementById("pay");
+  const copyBtn = document.getElementById("copyOrder");
+  const fallback = document.getElementById("copyFallback");
+
+  // นับคลิกใน Google Analytics (ชื่อเหตุการณ์: buy_click / copy_order / open_line)
+  const track = (name) => { if (window.gtag) gtag("event", name); };
+  document.querySelector(".line.full").addEventListener("click", () => track("open_line"));
+  document.querySelector("[data-free]").addEventListener("click", () => track("free_guide_click"));
+
+  document.querySelectorAll("[data-buy]").forEach((b) => b.addEventListener("click", () => {
+    track("buy_click");
+    copyBtn.textContent = "คัดลอกข้อความสั่งซื้อ";
+    fallback.hidden = true;
+    pay.showModal();
+  }));
+  document.getElementById("closePay").addEventListener("click", () => pay.close());
+  pay.addEventListener("click", (e) => { if (e.target === pay) pay.close(); });
+
+  copyBtn.addEventListener("click", () => {
+    track("copy_order");
+    navigator.clipboard.writeText(ORDER_TEXT).then(() => {
+      copyBtn.textContent = "คัดลอกแล้ว กดปุ่มเขียวต่อได้เลย";
+    }).catch(() => {
+      fallback.value = ORDER_TEXT;
+      fallback.hidden = false;
+      fallback.select();
+      copyBtn.textContent = "กดค้างที่ข้อความด้านล่างเพื่อคัดลอก";
+    });
+  });
+
+  // ซ่อนปุ่มลอยเมื่อเห็นปุ่มซื้อหลักบนจอแล้ว
+  const sticky = document.getElementById("sticky");
+  const heroBtn = document.querySelector(".hero [data-buy]");
+  const finalBtn = document.querySelector(".final [data-buy]");
+  const seen = new Set();
+  new IntersectionObserver((entries) => {
+    entries.forEach((e) => e.isIntersecting ? seen.add(e.target) : seen.delete(e.target));
+    sticky.classList.toggle("hide", seen.size > 0);
+  }).observe(heroBtn);
+  new IntersectionObserver((entries) => {
+    entries.forEach((e) => e.isIntersecting ? seen.add(e.target) : seen.delete(e.target));
+    sticky.classList.toggle("hide", seen.size > 0);
+  }).observe(finalBtn);
+</script>
+
+</body>
+</html>
