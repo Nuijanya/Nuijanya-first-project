@@ -152,6 +152,14 @@
     section { padding-block: 44px; }
   }
 </style>
+<!-- Google Analytics: property เว็บอีบุ๊ก nuijanya.github.io -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VR8839RGS4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-VR8839RGS4");
+</script>
 </head>
 <body>
 
@@ -263,6 +271,17 @@
       </div>
     </div>
   </section>
+
+  <section class="tint">
+    <div class="wrap">
+      <div class="kicker">อีบุ๊กอีกเล่มของนุ้ย</div>
+      <h2>อยากทำปกคลิป โพสต์ขายของ ให้สวยเป็นแบรนด์คุณด้วย Claude?</h2>
+      <div class="duo">
+        <div><span class="tag o">ขายดีคู่กัน</span><h3>Claude Design 101 ฉบับเต็ม</h3><p>85 หน้า · คำสั่ง 59 แบบ · โบนัส 8 ชิ้น · ราคาเปิดตัว <b>฿299</b> <s>฿490</s></p><p style="margin-top:12px"><a class="btn" href="../claude/" data-claude>ดูเล่ม Claude</a></p></div>
+        <div><span class="tag">ฟรี</span><h3>คู่มือ Claude ฉบับย่อ</h3><p>เพิ่งเริ่มใช้ Claude? กรอกอีเมล รับคู่มือฟรีก่อนได้เลย</p><p style="margin-top:12px"><a class="btn ghost" href="https://forms.gle/tWXiTbzXnSnbGLtM9" target="_blank" rel="noopener" data-free>รับคู่มือฟรี</a></p></div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer class="wrap">© 2026 นุ้ย · Janya Rattanaliam (จรรยา รัตนเหลี่ยม) · บริหารแบบโซโล่ · เล่มนี้ไม่ได้เกี่ยวข้องหรือได้รับการรับรองจาก LINE</footer>
@@ -301,7 +320,14 @@
   const copyBtn = document.getElementById("copyOrder");
   const fallback = document.getElementById("copyFallback");
 
+  // นับคลิกใน Google Analytics (ชื่อเหตุการณ์: buy_click / copy_order / open_line)
+  const track = (name) => { if (window.gtag) gtag("event", name); };
+  document.querySelector(".line.full").addEventListener("click", () => track("open_line"));
+  document.querySelector("[data-free]").addEventListener("click", () => track("free_guide_click"));
+  document.querySelector("[data-claude]").addEventListener("click", () => track("claude_page_click"));
+
   document.querySelectorAll("[data-buy]").forEach((b) => b.addEventListener("click", () => {
+    track("buy_click");
     copyBtn.textContent = "คัดลอกข้อความสั่งซื้อ";
     fallback.hidden = true;
     pay.showModal();
@@ -310,6 +336,7 @@
   pay.addEventListener("click", (e) => { if (e.target === pay) pay.close(); });
 
   copyBtn.addEventListener("click", () => {
+    track("copy_order");
     navigator.clipboard.writeText(ORDER_TEXT).then(() => {
       copyBtn.textContent = "คัดลอกแล้ว กดปุ่มเขียวต่อได้เลย";
     }).catch(() => {
